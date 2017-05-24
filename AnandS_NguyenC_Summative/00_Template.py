@@ -1,7 +1,7 @@
-
-""" 
-A basic template for starting to program in Pygame
-"""
+#Shashank Anand and Candace Nguyen
+#[INSERT DATE HERE]
+#Space Invaders Summative
+#ICS 2O1 with Ms. Strelkovska
 
 #Import & initialize the pygame module
 import pygame
@@ -65,8 +65,10 @@ try:
             if ev.type == pygame.KEYDOWN: #Key Presses
                 if ev.key == K_LEFT:    #  left is pressed
                     direction=1
-                elif ev.key == K_RIGHT:   # right is pressed
+                if ev.key == K_RIGHT:   # right is pressed
                     direction=2
+                if ev.key == K_SPACE:   # space is pressed
+                    #do the pew pew
             
             elif ev.type == KEYUP: #When you let go of the key, to stop it and not interfere with other keys
                 if direction == 1:
