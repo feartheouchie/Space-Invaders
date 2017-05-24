@@ -31,14 +31,12 @@ screen = pygame.display.set_mode(size)
 
 #Puts a caption in the bar at the top of the window
 pygame.display.set_caption("Yeah, Hello There!")
-spaceship1 = pygame.image.load("Spaceship1.png").convert()
-
-# Fills the memory screen surface with colour
-screen.fill((52,86,203))  
+spaceship1 = pygame.image.load("Spaceship1.png").convert_alpha()
+background = pygame.image.load("Background.png").convert()
 
 #Update and refresh the display to end this frame
 pygame.display.flip() #<-- refresh the display
-x = 200
+x = 0
 y = 400
 
 #The game loop
@@ -48,17 +46,17 @@ keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
 try:
     while keepGoing:
         clock.tick(60) #<-- Set a constant frame rate, argument is frames per second
-        screen.fill((52,86,203))  
+        screen.blit(background, (-1, -1))
         screen.blit(spaceship1, (x, y))
         #Handle any events in the current frame
         for ev in pygame.event.get(): 
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
                 keepGoing = False
             if ev.type == pygame.KEYDOWN:
-                if ev.key == pygame.K_LEFT:
-                    x -= 1
-                if ev.key == pygame.K_RIGHT:
-                    x += 1
+                if ev.key == pygame.K_LEFT and x > 0:
+                    x -= 3
+                if ev.key == pygame.K_RIGHT and x + 70 < 640:
+                    x += 3
         pygame.display.flip()
 finally:
-    pygame.quit()  # Keep this IDLE friendly 
+    pygame.quit()  # Kseep this IDLE friendly 
