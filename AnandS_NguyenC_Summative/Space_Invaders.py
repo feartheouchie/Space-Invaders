@@ -60,11 +60,12 @@ try:
 
         for i in range(len(ex)):
             screen.blit(enemy1, (ex[i], ey[i]))
+            #for j in range(len(laserx)):
 
         #laser coordinates
         for i in range(len(laserx)):
             screen.blit(laser1, (laserx[i], lasery[i]))
-            lasery[i] -= 1
+            lasery[i] -= 2
         
 
         if direction==1 and x > 0:
