@@ -17,7 +17,8 @@ screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("Menu")
 
-background = pygame.image.load("bkg\menu1.jpg").convert()
+background = pygame.image.load("background\menu1.jpg").convert()
+background2= pygame.image.load("background\menu2.jpg").convert()
 
 #Update and refresh the display to end this frame
 pygame.display.flip() #<-- refresh the display
@@ -42,15 +43,15 @@ smallfont=pygame.font.SysFont("verdana", 13)
 spaceship=pygame.image.load("spaceship1.png").convert_alpha()
 
 ##title = fontObj.render(('Space Invaders'), True, (255,255,255))
-btnNew=pygame.image.load("button1.gif").convert()
-btnInstruct=pygame.image.load("button1.gif").convert()
-btnExit=pygame.image.load("button1.gif").convert()
-btnBack1=pygame.image.load("button1.gif").convert()
+btnStart=pygame.image.load("start\startbutt1.png").convert_alpha()
+btnInstruct=pygame.image.load("instru\instrubutt1.png").convert_alpha()
+btnExit=pygame.image.load("exit\exit1.png").convert_alpha()
+btnBack1=pygame.image.load("button1.gif").convert_alpha()
 
-btnNew2=pygame.image.load("button3.gif").convert()
-btnInstruct2=pygame.image.load("button3.gif").convert()
-btnExit2=pygame.image.load("button3.gif").convert()
-btnBack2=pygame.image.load("button3.gif").convert()
+btnStart2=pygame.image.load("start\startbutt2.png").convert_alpha()
+btnInstruct2=pygame.image.load("instru\instrubutt2.png").convert_alpha()
+btnExit2=pygame.image.load("exit\exit2.png").convert_alpha()
+btnBack2=pygame.image.load("button3.gif").convert_alpha()
 
 newgame=smallfont.render(("New Game"), True, (0, 0, 0))
 instructions=smallfont.render(("Instructions"), True, (0, 0, 0))
@@ -66,34 +67,37 @@ try:
     while keepGoing:
         clock.tick(60) #delay
         screen.blit(background, (0, 0))
-        x=300
-        y=150
+        x=265
+        y=200
         if state=="menu":
 ##            screen.blit(title, (0, 0))
-            bn=screen.blit(btnNew,(x,y))    #bn- rectangle arround button btnNew
+
+            a=pygame.mouse.get_pos()
+                
+            bn=screen.blit(btnStart,(x,y))    #bn- rectangle arround button btnNew
 
             
-            bi=screen.blit(btnInstruct,(x,y+100))    #bi- rectangle arround button btnInrtuct
+            bi=screen.blit(btnInstruct,(x,y+50))    #bi- rectangle arround button btnInrtuct
             
-            be=screen.blit(btnExit,(x,y+200))      #be- rectangle arround button btnExit
+            be=screen.blit(btnExit,(x,y+100))      #be- rectangle arround button btnExit
   
             screen.blit(spaceship, (x-300, y))
-            screen.blit(newgame, (x+10, y+5))
+##            screen.blit(newgame, (x+10, y+5))
             screen.blit(instructions, (x+10, y+105))
             screen.blit(exit1, (x+10, y+205))
             
 
-            if bn.collidepoint(pygame.mouse.get_pos()):
-               bn=screen.blit(btnNew2, (x, y))
-               screen.blit(newgame, (x+10, y+5))
+            if bn.collidepoint(a):
+               bn=screen.blit(btnStart2, (x, y))
+##               screen.blit(newgame, (x+10, y+5))
 
-            if bi.collidepoint(pygame.mouse.get_pos()):
-               bi=screen.blit(btnInstruct2, (x, y+100))
-               screen.blit(instructions, (x+10, y+105))
+            if bi.collidepoint(a):
+               bi=screen.blit(btnInstruct2, (x, y+50))
+##               screen.blit(instructions, (x+10, y+105))
 
-            if be.collidepoint(pygame.mouse.get_pos()):
-               be=screen.blit(btnExit2, (x, y+200))
-               screen.blit(exit1, (x+10, y+205))
+            if be.collidepoint(a):
+               be=screen.blit(btnExit2, (x, y+100))
+##               screen.blit(exit1, (x+10, y+205))
 
             
             for ev in pygame.event.get():
