@@ -1,4 +1,5 @@
 
+
 """ 
 A basic template for starting to program in Pygame
 """
@@ -60,19 +61,27 @@ try:
 
         for i in range(len(ex)):
             screen.blit(enemy1, (ex[i], ey[i]))
-            #for j in range(len(laserx)):
+
+            for j in range(len(laserx)):
+                if laserx[j] - 35 >= ex[i] and lasery[j] <= ey[i] + 34:
+                    print(,end = "")
+                    #ex.remove(ex[i])
+                    #ey.remove(ey[i])
+                    #laserx.remove(laserx[j])
+                    #lasery.remove(lasery[j])
+                   
 
         #laser coordinates
         for i in range(len(laserx)):
             screen.blit(laser1, (laserx[i], lasery[i]))
             lasery[i] -= 2
-        
+       
 
         if direction==1 and x > 0:
             x=x-3
         elif direction==2 and x+55<640:
             x=x+3
-        
+
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
                 keepGoing = False
@@ -92,7 +101,8 @@ try:
                 if direction == 2:
                     if ev.key == K_RIGHT:
                         direction = 4
-                    
+
+           
         pygame.display.flip()
 finally:
     pygame.quit()  # Kseep this IDLE friendly 
