@@ -73,8 +73,7 @@ try:
         
             be=screen.blit(btnExit,(x,y+100))
 
-            s=screen.blit(sound, (x, y))
-            m=screen.blit(mute, (x+100, y))
+            s=screen.blit(sound, (600, 450))            
 
             if bn.collidepoint(a):
                 screen.blit(background2, (0, 0))
@@ -106,15 +105,24 @@ try:
                         state="instructions"
                     elif be.collidepoint(pos):
                         keepGoing = False
+                    elif s.collidepoint(pos):
+                        state="silent"
+
+        if state=="silent":
+            screen.blit(background, (0, 0))
+            m=screen.blit(mute, (600, 450))
             
         if state=="game":  
             # ---------------code for the game-------------------               
+            a=pygame.mouse.get_pos()
+
             screen.blit(background3, (0, 0))
-            bb=screen.blit(btnBack1,(x+10,y+105))
+            bb=screen.blit(btnBack1,(x,y))
 
 
-            if bb.collidepoint(pygame.mouse.get_pos()):
-               bb=screen.blit(btnBack2, (x+10, y+105))
+            if bb.collidepoint(a):
+                screen.blit(background3, (0, 0))
+                bb=screen.blit(btnBack2, (x, y))
 
             
             for ev in pygame.event.get():
@@ -127,12 +135,15 @@ try:
 
            
         if state=="instructions":
+            a=pygame.mouse.get_pos()
+
             screen.blit(background3, (0, 0))
-            bb=screen.blit(btnBack1,(x+10,y+105))
+            bb=screen.blit(btnBack1,(x,y))
 
 
-            if bb.collidepoint(pygame.mouse.get_pos()):
-               bb=screen.blit(btnBack2, (x+10, y+105))
+            if bb.collidepoint(a):
+                screen.blit(background3, (0, 0))
+                bb=screen.blit(btnBack2, (x, y))
             
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
