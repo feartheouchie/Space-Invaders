@@ -19,8 +19,7 @@ pygame.display.set_caption("Menu")
 
 background = pygame.image.load("background\menu1.jpg").convert()
 background2= pygame.image.load("background\menu2.jpg").convert()
-background3= pygame.image.load("background\spaceback.png").convert_alpha()
-background4= pygame.image.load("background\spaceback.png").convert_alpha()
+background3= pygame.image.load("background\instructionsbkg.jpg").convert()
 
 
 pygame.display.flip() 
@@ -55,15 +54,24 @@ btnExit2=pygame.image.load("exit\exit2.png").convert_alpha()
 btnBack2=pygame.image.load("back\\back2.png").convert_alpha()
 
 state="menu"
+volume="sound"
 
 try:
     while keepGoing:
         clock.tick(60)
         screen.blit(background, (0, 0))
+        
+##        pygame.mixer.music.load()
+
         x=265
         y=200
         if state=="menu":
+            if volume=="sound":
+                s=screen.blit(sound, (600, 450))
 
+            if volume=="mute":
+                m=screen.blit(mute, (600, 450))
+                
             a=pygame.mouse.get_pos()
         
             bn=screen.blit(btnStart,(x,y))    
@@ -72,8 +80,6 @@ try:
             bi=screen.blit(btnInstruct,(x,y+50))    
         
             be=screen.blit(btnExit,(x,y+100))
-
-            s=screen.blit(sound, (600, 450))            
 
             if bn.collidepoint(a):
                 screen.blit(background2, (0, 0))
@@ -105,12 +111,14 @@ try:
                         state="instructions"
                     elif be.collidepoint(pos):
                         keepGoing = False
-                    elif s.collidepoint(pos):
-                        state="silent"
-
-        if state=="silent":
-            screen.blit(background, (0, 0))
-            m=screen.blit(mute, (600, 450))
+                    else:
+                        if volume=="mute":
+                            if m.collidepoint(pos):
+                                volume="sound"
+                        if volume=="sound":
+                            if s.collidepoint(pos):
+                                volume="mute"
+                   
             
         if state=="game":  
             # ---------------code for the game-------------------               
