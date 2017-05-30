@@ -1,8 +1,4 @@
-
-""" 
-A basic template for starting to program in Pygame
-"""
-
+#Hello Candace
 #Import & initialize the pygame module
 import pygame
 
@@ -45,8 +41,10 @@ y = 420
 direction=4
 laserx = []
 lasery = []
-ex = [100]
-ey = [100]
+lstatus = []
+estatus = ['alive']
+ex = [10]
+ey = [250]
 
 #The game loop
 clock = pygame.time.Clock() #<-- used to control the frame rate
@@ -59,20 +57,28 @@ try:
         screen.blit(spaceship1, (x, y))
 
         for i in range(len(ex)):
-            screen.blit(enemy1, (ex[i], ey[i]))
-            #for j in range(len(laserx)):
+            if estatus[i] == "alive":
+                screen.blit(enemy1, (ex[i], ey[i]))
+
+            for j in range(len(laserx)):
+                if laserx[j] - 3.5 >= ex[i] and laserx[j] - 3.5 <= ex[i] + 41 and lasery[j] <= ey[i] + 34 and lasery[j] >= ey[i] and lstatus[j] == "active" and estatus[i] == "alive":
+                    estatus[i] = "dead"
+                    lstatus[j] = "inactive"
+                    #lstatus
 
         #laser coordinates
         for i in range(len(laserx)):
-            screen.blit(laser1, (laserx[i], lasery[i]))
+            if lstatus[i] == 'active':
+                screen.blit(laser1, (laserx[i], lasery[i]))
             lasery[i] -= 2
-        
+            #Maybe later find a way to remove things after the laser gets far from the screen to save some space, possibly use [-1]
+       
 
         if direction==1 and x > 0:
             x=x-3
         elif direction==2 and x+55<640:
             x=x+3
-        
+
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
                 keepGoing = False
@@ -84,6 +90,7 @@ try:
                 if ev.key == K_SPACE:
                     laserx.append(x + 23)
                     lasery.append(y - 15)
+                    lstatus.append('active')
             
             elif ev.type == KEYUP: #When you let go of the key, to stop it and not interfere with other keys
                 if direction == 1:
@@ -92,7 +99,8 @@ try:
                 if direction == 2:
                     if ev.key == K_RIGHT:
                         direction = 4
-                    
+
+           
         pygame.display.flip()
 finally:
     pygame.quit()  # Kseep this IDLE friendly 
