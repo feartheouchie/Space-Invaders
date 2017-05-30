@@ -47,12 +47,12 @@ sound=pygame.image.load("volume\sound.png").convert_alpha()
 btnStart=pygame.image.load("start\startbutt1.png").convert_alpha()
 btnInstruct=pygame.image.load("instru\instrubutt1.png").convert_alpha()
 btnExit=pygame.image.load("exit\exit1.png").convert_alpha()
-btnBack1=pygame.image.load("button1.gif").convert_alpha()
+btnBack1=pygame.image.load("back\\back1.png").convert_alpha()
 
 btnStart2=pygame.image.load("start\startbutt2.png").convert_alpha()
 btnInstruct2=pygame.image.load("instru\instrubutt2.png").convert_alpha()
 btnExit2=pygame.image.load("exit\exit2.png").convert_alpha()
-btnBack2=pygame.image.load("button3.gif").convert_alpha()
+btnBack2=pygame.image.load("back\\back2.png").convert_alpha()
 
 state="menu"
 
