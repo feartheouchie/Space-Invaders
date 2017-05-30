@@ -1,4 +1,4 @@
-
+#Hello Candace
 #Import & initialize the pygame module
 import pygame
 
