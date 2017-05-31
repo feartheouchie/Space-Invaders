@@ -39,8 +39,8 @@ pygame.display.flip() #<-- refresh the display
 x = 0
 y = 420
 direction=4
-esizex = 41
-esizey = 34
+esizex = 28
+esizey = 23
 lsizex = 7
 lsizey = 16
 score = 0
@@ -48,10 +48,40 @@ laserx = []
 lasery = []
 lstatus = []
 exbase = 10
-estatus = ['alive', 'alive', 'alive', 'alive', 'alive', 'alive', 'alive', 'alive', 'alive' ,'alive']
-ex = [exbase, exbase + 56, exbase + 56*2, exbase + 56*3, exbase + 56*4, exbase + 56*5, exbase + 56*6, exbase + 56*7, exbase + 56*8, exbase + 56*9]
-ey = [250, 250, 250, 250, 250, 250, 250, 250, 250, 250]
+estatus=[]
+row=5
+column=10
+ex=[]
+ey=[]
+times=5
 
+
+for each in range(times):
+    a=0
+    for each in range(column):
+        exx=exbase+a
+        ex.append(exx)
+        a+=56
+        
+for x in range(column):
+    row1=250
+    ey.append(row1)
+for x in range(column):
+    row2=200
+    ey.append(row2)
+for x in range(column):
+    row3=150
+    ey.append(row3)
+for x in range(column):
+    row4=100
+    ey.append(row4)
+for x in range(column):
+    row5=50
+    ey.append(row5)
+
+for x in ex:
+    estatus.append('alive')
+  
 #The game loop
 clock = pygame.time.Clock() #<-- used to control the frame rate
 keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
@@ -67,7 +97,7 @@ try:
                 screen.blit(enemy1, (ex[i], ey[i]))
 
             for j in range(len(laserx)):
-                if laserx[j] - 3.5 >= ex[i] and laserx[j] - 3.5 <= ex[i] + esizex and (lasery[j] <= ey[i] + esizey and lasery[j] >= ey[i]) and lstatus[j] == "active" and estatus[i] == "alive":
+                if laserx[j] + 3.5 >= ex[i] and laserx[j] + 3.5 <= ex[i] + esizex and (lasery[j] <= ey[i] + esizey and lasery[j] >= ey[i]) and lstatus[j] == "active" and estatus[i] == "alive":
                     estatus[i] = "dead"
                     lstatus[j] = "inactive"
                     #lstatus
