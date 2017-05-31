@@ -1,5 +1,6 @@
 import pygame
 import random
+import winsound
 from pygame.locals import *  
 
 from pygame.color import THECOLORS
@@ -55,7 +56,9 @@ btnBack2=pygame.image.load("back\\back2.png").convert_alpha()
 
 state="menu"
 volume="sound"
-
+music = "start"
+m=screen.blit(mute, (600, 450))
+s=screen.blit(sound, (600, 450))
 try:
     while keepGoing:
         clock.tick(60)
@@ -71,6 +74,7 @@ try:
 
             if volume=="mute":
                 m=screen.blit(mute, (600, 450))
+
                 
             a=pygame.mouse.get_pos()
         
@@ -99,7 +103,12 @@ try:
                 bi=screen.blit(btnInstruct,(x,y+50))    
                 be=screen.blit(btnExit2,(x,y+100))
 
-            
+            if music == "start" and volume == "sound":
+                winsound.PlaySound("DANCE_TILL_YOURE_DEAD.wav", winsound.SND_ASYNC)
+                music = "playing"
+            '''elif volume == "mute":
+                winsound.SND_PURGE("DANCE_TILL_YOURE_DEAD.wav")'''
+                
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT:
                     keepGoing = False
@@ -112,13 +121,15 @@ try:
                     elif be.collidepoint(pos):
                         keepGoing = False
                     else:
-                        if volume=="mute":
-                            if m.collidepoint(pos):
-                                volume="sound"
-                        if volume=="sound":
-                            if s.collidepoint(pos):
+                         if m.collidepoint(pos) or s.collidepoint(pos):
+                            if volume=="sound":
                                 volume="mute"
-                   
+                            else:
+                                volume="sound"
+
+
+
+                
             
         if state=="game":  
             # ---------------code for the game-------------------               
