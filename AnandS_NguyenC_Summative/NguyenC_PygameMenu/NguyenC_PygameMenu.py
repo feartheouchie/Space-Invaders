@@ -1,7 +1,12 @@
 import pygame
 import random
 import winsound
-from pygame.locals import *  
+from pygame.locals import *
+pygame.mixer.init()
+'''from Tkinter import *
+root = Tk()
+import tksnack
+tkSnack.initializeSnack(root)'''
 
 from pygame.color import THECOLORS
 
@@ -106,9 +111,14 @@ try:
             if music == "start" and volume == "sound":
                 winsound.PlaySound("DANCE_TILL_YOURE_DEAD.wav", winsound.SND_ASYNC)
                 music = "playing"
-            '''elif volume == "mute":
-                winsound.SND_PURGE("DANCE_TILL_YOURE_DEAD.wav")'''
-                
+            elif volume == "mute":
+                pygame.mixer.pause
+                winsound.PlaySound(None, winsound.SND_PURGE)
+                music = "stopped"
+            elif music == "stopped" and volume == "sound":
+                winsound.PlaySound("DANCE_TILL_YOURE_DEAD.wav", winsound.SND_ASYNC)
+                music = "playing"
+            
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT:
                     keepGoing = False
