@@ -3,10 +3,6 @@ import random
 import winsound
 from pygame.locals import *
 pygame.mixer.init()
-'''from Tkinter import *
-root = Tk()
-import tksnack
-tkSnack.initializeSnack(root)'''
 
 from pygame.color import THECOLORS
 
@@ -64,12 +60,15 @@ volume="sound"
 music = "start"
 m=screen.blit(mute, (600, 450))
 s=screen.blit(sound, (600, 450))
+
+pygame.mixer.music.load("DANCE_TILL_YOURE_DEAD.wav")
+
+
 try:
     while keepGoing:
         clock.tick(60)
         screen.blit(background, (0, 0))
         
-##        pygame.mixer.music.load()
 
         x=265
         y=200
@@ -109,15 +108,18 @@ try:
                 be=screen.blit(btnExit2,(x,y+100))
 
             if music == "start" and volume == "sound":
-                winsound.PlaySound("DANCE_TILL_YOURE_DEAD.wav", winsound.SND_ASYNC)
+##                winsound.PlaySound("DANCE_TILL_YOURE_DEAD.wav", winsound.SND_ASYNC)
+                pygame.mixer.music.play(-1)
                 music = "playing"
             elif volume == "mute":
-                pygame.mixer.pause
-                winsound.PlaySound(None, winsound.SND_PURGE)
+                pygame.mixer.music.pause()
+##                winsound.PlaySound(None, winsound.SND_PURGE)
                 music = "stopped"
             elif music == "stopped" and volume == "sound":
-                winsound.PlaySound("DANCE_TILL_YOURE_DEAD.wav", winsound.SND_ASYNC)
+##                winsound.PlaySound("DANCE_TILL_YOURE_DEAD.wav", winsound.SND_ASYNC)
+                pygame.mixer.music.unpause()
                 music = "playing"
+                
             
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT:
