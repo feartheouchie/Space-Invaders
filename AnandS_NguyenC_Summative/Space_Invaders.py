@@ -31,6 +31,8 @@ pygame.display.set_caption("Yeah, Hello There!")
 spaceship1 = pygame.image.load("Spaceship1.png").convert_alpha()
 background = pygame.image.load("Background.png").convert()
 enemy1 = pygame.image.load("enemy1.png").convert_alpha()
+enemy2 = pygame.image.load("enemy2.png").convert_alpha()
+enemy3 = pygame.image.load("enemy3.png").convert_alpha()
 laser1 = pygame.image.load("GreenLaser.png").convert_alpha() #Friendly laser
 laser2 = pygame.image.load("RedLaser.png").convert_alpha() #Enemy Laser
 
@@ -54,7 +56,9 @@ column=10
 ex=[]
 ey=[]
 times=5
-
+edirect = "right"
+count = 0
+countmax = 5
 
 for each in range(times):
     a=0
@@ -81,7 +85,23 @@ for x in range(column):
 
 for x in ex:
     estatus.append('alive')
-  
+
+def moveenemies(edirect):
+    global ex, ey, exbase, estatus
+    if edirect == "right":
+        for ind in range(len(ex)):
+            ex[ind] += 1
+    elif edirect == "left":
+        for ind in range(len(ex)):
+            ex[ind] -= 1
+    if edirect == "right" and exbase + 598 >= 630:
+        for j in range(len(estatus)):
+                if estatus[j] == "alive":
+                    ey[j] += 50
+                    
+        edirect = "left"    
+        
+
 #The game loop
 clock = pygame.time.Clock() #<-- used to control the frame rate
 keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
@@ -89,13 +109,22 @@ keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
 try:
     while keepGoing:
         clock.tick(60) #<-- Set a constant frame rate, argument is frames per second
+        count += 1
+        count = count%10000
         screen.blit(background, (-1, -1))
         screen.blit(spaceship1, (x, y))
 
-        for i in range(len(ex)):
+        for i in range(20):
             if estatus[i] == "alive":
                 screen.blit(enemy1, (ex[i], ey[i]))
+        for i in range(20, 40):
+            if estatus[i] == "alive":
+                screen.blit(enemy2, (ex[i], ey[i]))
+        for i in range(40, 50):
+            if estatus[i] == "alive":
+                screen.blit(enemy3, (ex[i], ey[i]))
 
+        for i in range(len(ex)):
             for j in range(len(laserx)):
                 if laserx[j] + 3.5 >= ex[i] and laserx[j] + 3.5 <= ex[i] + esizex and (lasery[j] <= ey[i] + esizey and lasery[j] >= ey[i]) and lstatus[j] == "active" and estatus[i] == "alive":
                     estatus[i] = "dead"
@@ -109,12 +138,16 @@ try:
             lasery[i] -= 2
             #Maybe later find a way to remove things after the laser gets far from the screen to save some space, possibly use [-1]
        
-
+        #move the ship
         if direction==1 and x > 0:
             x=x-3
         elif direction==2 and x+55<640:
             x=x+3
 
+        #move the enemies
+        
+        if count%countmax == 0:
+            moveenemies(edirect)
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
                 keepGoing = False
