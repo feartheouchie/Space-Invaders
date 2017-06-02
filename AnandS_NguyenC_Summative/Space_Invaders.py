@@ -88,16 +88,20 @@ for x in ex:
 
 def moveenemies(edirect):
     global ex, ey, exbase, estatus
+    switched = "no"
     if edirect == "right":
         for ind in range(len(ex)):
-            ex[ind] += 1
+            ex[ind] += 0.5
     elif edirect == "left":
         for ind in range(len(ex)):
-            ex[ind] -= 1
-    if edirect == "right" and exbase + 598 >= 630:
-        for j in range(len(estatus)):
-                if estatus[j] == "alive":
-                    ey[j] += 50
+            ex[ind] -= 0.5
+                    
+    for e in range(len(estatus)):
+        if estatus[e] == "alive":
+            if ex[e] + 28 >= 630:
+                direction = "left"
+            elif ex[e] <= 10:
+                direction = "right"
                     
         edirect = "left"    
         
@@ -140,9 +144,9 @@ try:
        
         #move the ship
         if direction==1 and x > 0:
-            x=x-3
+            x=x-2.5
         elif direction==2 and x+55<640:
-            x=x+3
+            x=x+2.5
 
         #move the enemies
         
