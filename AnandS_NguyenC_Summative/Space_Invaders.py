@@ -27,7 +27,7 @@ size = (640,480)
 screen = pygame.display.set_mode(size) 
 
 #Puts a caption in the bar at the top of the window
-pygame.display.set_caption("Yeah, Hello There!")
+pygame.display.set_caption("SPACE INVADERS")
 spaceship1 = pygame.image.load("Spaceship1.png").convert_alpha()
 background = pygame.image.load("Background.png").convert()
 enemy1 = pygame.image.load("enemy1.png").convert_alpha()
@@ -58,7 +58,7 @@ ey=[]
 times=5
 edirect = "right"
 count = 0
-countmax = 5
+countmax = 50
 
 for each in range(times):
     a=0
@@ -91,19 +91,27 @@ def moveenemies(edirect):
     switched = "no"
     if edirect == "right":
         for ind in range(len(ex)):
-            ex[ind] += 0.5
+            ex[ind] += 4.5
     elif edirect == "left":
         for ind in range(len(ex)):
-            ex[ind] -= 0.5
+            ex[ind] -= 4.5
                     
     for e in range(len(estatus)):
         if estatus[e] == "alive":
             if ex[e] + 28 >= 630:
-                direction = "left"
+                edirect = "left"
+                switched = "yes"
+                break
             elif ex[e] <= 10:
-                direction = "right"
-                    
-        edirect = "left"    
+                edirect = "right"
+                switched = "yes"
+                break
+    for e in range(len(estatus)):
+        if switched == "yes":
+            for e in range(len(ey)):
+                if estatus[e] == "alive":
+                    ey[e] += 23
+                        
         
 
 #The game loop
@@ -113,8 +121,9 @@ keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
 try:
     while keepGoing:
         clock.tick(60) #<-- Set a constant frame rate, argument is frames per second
+        if count == countmax:
+            count = 0
         count += 1
-        count = count%10000
         screen.blit(background, (-1, -1))
         screen.blit(spaceship1, (x, y))
 
@@ -128,11 +137,13 @@ try:
             if estatus[i] == "alive":
                 screen.blit(enemy3, (ex[i], ey[i]))
 
+        #Check if a laser hits an enemy
         for i in range(len(ex)):
             for j in range(len(laserx)):
                 if laserx[j] + 3.5 >= ex[i] and laserx[j] + 3.5 <= ex[i] + esizex and (lasery[j] <= ey[i] + esizey and lasery[j] >= ey[i]) and lstatus[j] == "active" and estatus[i] == "alive":
                     estatus[i] = "dead"
                     lstatus[j] = "inactive"
+                    countmax -= 1
                     #lstatus
 
         #laser coordinates
@@ -147,8 +158,6 @@ try:
             x=x-2.5
         elif direction==2 and x+55<640:
             x=x+2.5
-
-        #move the enemies
         
         if count%countmax == 0:
             moveenemies(edirect)
