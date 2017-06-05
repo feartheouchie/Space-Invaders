@@ -36,6 +36,12 @@ enemy3 = pygame.image.load("enemy3.png").convert_alpha()
 laser1 = pygame.image.load("GreenLaser.png").convert_alpha() #Friendly laser
 laser2 = pygame.image.load("RedLaser.png").convert_alpha() #Enemy Laser
 
+
+ast=pygame.image.load("asteroid.png").convert_alpha()
+ast1=pygame.image.load("asteroid1.png").convert_alpha()
+ast2=pygame.image.load("asteroid2.png").convert_alpha()
+ast3=pygame.image.load("asteroid3.png").convert_alpha()
+
 #Update and refresh the display to end this frame
 pygame.display.flip() #<-- refresh the display
 x = 0
@@ -59,6 +65,7 @@ times=5
 edirect = "right"
 count = 0
 countmax = 50
+down = "no"
 
 for each in range(times):
     a=0
@@ -86,31 +93,52 @@ for x in range(column):
 for x in ex:
     estatus.append('alive')
 
-def moveenemies(edirect):
-    global ex, ey, exbase, estatus
-    switched = "no"
-    if edirect == "right":
-        for ind in range(len(ex)):
-            ex[ind] += 4.5
-    elif edirect == "left":
-        for ind in range(len(ex)):
-            ex[ind] -= 4.5
-                    
-    for e in range(len(estatus)):
-        if estatus[e] == "alive":
-            if ex[e] + 28 >= 630:
-                edirect = "left"
-                switched = "yes"
-                break
-            elif ex[e] <= 10:
-                edirect = "right"
-                switched = "yes"
-                break
-    for e in range(len(estatus)):
-        if switched == "yes":
-            for e in range(len(ey)):
-                if estatus[e] == "alive":
-                    ey[e] += 23
+##def moveenemies(edirect):
+##    global ex, ey, exbase, estatus
+##    down = "no"
+##    
+##    if down == "yes":
+##        for ind in range(len(ex)):
+##            ey[ind] += 23
+##
+##        down = "no"
+##
+##    elif edirect == "right":
+##        for ind in range(len(ex)):
+##            ex[ind] += 4.5
+##    elif edirect == "left":
+##        for ind in range(len(ex)):
+##            ex[ind] -= 4.5
+##                    
+##    for e in range(len(estatus)):
+##        if estatus[e] == "alive":
+##            if ex[e] + 28 >= 630:
+##                down="yes"
+##                edirect = "left"
+##                break
+##            elif ex[e] <= 10:
+##                down="yes"
+##                edirect = "right"
+##                break
+##
+##            
+##    '''if switched == "yes" and edirect == "right":
+##        edirect = "left"
+##        for e in range(len(estatus)):
+##            for e in range(len(ey)):
+##                if estatus[e] == "alive":
+##                    #ey[e] += 23'''
+##                    
+##    '''if switched == "yes" and edirect == "left":
+##        edirect = "right"
+##
+##        for e in range(len(estatus)):
+##            for e in range(len(ey)):
+##                if estatus[e] == "alive":
+##                    #ey[e] += 23
+##           '''         
+        
+                
                         
         
 
@@ -126,6 +154,7 @@ try:
         count += 1
         screen.blit(background, (-1, -1))
         screen.blit(spaceship1, (x, y))
+        screen.blit(ast, (20, 350))
 
         for i in range(20):
             if estatus[i] == "alive":
@@ -159,8 +188,33 @@ try:
         elif direction==2 and x+55<640:
             x=x+2.5
         
-        if count%countmax == 0:
-            moveenemies(edirect)
+        if count==countmax:
+##            moveenemies(edirect)
+            ##    down = "no"
+    
+            if down == "yes":
+                for ind in range(len(ex)):
+                    ey[ind] += 23
+                down = "no"
+
+            elif edirect == "right":
+                for ind in range(len(ex)):
+                    ex[ind] += 4.5
+            elif edirect == "left":
+                for ind in range(len(ex)):
+                    ex[ind] -= 4.5
+                            
+            for e in range(len(estatus)):
+                if estatus[e] == "alive":
+                    if ex[e] + 28 >= 630:
+                        down="yes"
+                        edirect = "left"
+                        break
+                    elif ex[e] <= 10:
+                        down="yes"
+                        edirect = "right"
+                        break
+            
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
                 keepGoing = False
