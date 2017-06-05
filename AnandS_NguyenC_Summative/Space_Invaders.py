@@ -195,6 +195,7 @@ try:
             if down == "yes":
                 for ind in range(len(ex)):
                     ey[ind] += 23
+
                 down = "no"
 
             elif edirect == "right":
