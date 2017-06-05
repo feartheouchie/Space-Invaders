@@ -31,20 +31,20 @@ clock = pygame.time.Clock() #<-- used to control the frame rate
 keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
 # Set up the font and the size 
 
-bigfont = pygame.font.SysFont("comic sans ms", 42)
-smallfont=pygame.font.SysFont("verdana", 13)
+##bigfont = pygame.font.SysFont("comic sans ms", 42)
+##smallfont=pygame.font.SysFont("verdana", 13)
 
 
 ##pygame.font.init()
-##font_path = "elitedangerbold.ttf"
-##font_size = 100
+##font_path = "PixelSplitter-Bold.ttf"
+##font_size = 50
 ##fontObj = pygame.font.Font(font_path, font_size)
 
 spaceship=pygame.image.load("spaceship1.png").convert_alpha()
 mute=pygame.image.load("volume\mute.png").convert_alpha()
 sound=pygame.image.load("volume\sound.png").convert_alpha()
 
-##title = fontObj.render(('Space Invaders'), True, (255,255,255))
+##instrutext = fontObj.render(('Instructions'), True, (255,255,255))
 btnStart=pygame.image.load("start\startbutt1.png").convert_alpha()
 btnInstruct=pygame.image.load("instru\instrubutt1.png").convert_alpha()
 btnExit=pygame.image.load("exit\exit1.png").convert_alpha()
@@ -94,18 +94,33 @@ try:
                 bn=screen.blit(btnStart2, (x, y))
                 bi=screen.blit(btnInstruct,(x,y+50))    
                 be=screen.blit(btnExit,(x,y+100))
+                if volume=="sound":
+                    s=screen.blit(sound, (600, 450))
+
+                if volume=="mute":
+                    m=screen.blit(mute, (600, 450))
                 
             if bi.collidepoint(a):
                 screen.blit(background2, (0, 0))
                 bn=screen.blit(btnStart, (x, y))
                 bi=screen.blit(btnInstruct2,(x,y+50))    
                 be=screen.blit(btnExit,(x,y+100))
+                if volume=="sound":
+                    s=screen.blit(sound, (600, 450))
+
+                if volume=="mute":
+                    m=screen.blit(mute, (600, 450))
 
             if be.collidepoint(a):
                 screen.blit(background2, (0, 0))
                 bn=screen.blit(btnStart, (x, y))
                 bi=screen.blit(btnInstruct,(x,y+50))    
                 be=screen.blit(btnExit2,(x,y+100))
+                if volume=="sound":
+                    s=screen.blit(sound, (600, 450))
+
+                if volume=="mute":
+                    m=screen.blit(mute, (600, 450))
 
             if music == "start" and volume == "sound":
 ##                winsound.PlaySound("DANCE_TILL_YOURE_DEAD.wav", winsound.SND_ASYNC)
@@ -148,12 +163,12 @@ try:
             a=pygame.mouse.get_pos()
 
             screen.blit(background3, (0, 0))
-            bb=screen.blit(btnBack1,(x,y))
+            bb=screen.blit(btnBack1,(x,y+200))
 
 
             if bb.collidepoint(a):
                 screen.blit(background3, (0, 0))
-                bb=screen.blit(btnBack2, (x, y))
+                bb=screen.blit(btnBack2, (x, y+200))
 
             
             for ev in pygame.event.get():
@@ -169,12 +184,13 @@ try:
             a=pygame.mouse.get_pos()
 
             screen.blit(background3, (0, 0))
-            bb=screen.blit(btnBack1,(x,y))
+            bb=screen.blit(btnBack1,(x,y+200))
+##            screen.blit(instrutext, (x-100, 0))
 
 
             if bb.collidepoint(a):
                 screen.blit(background3, (0, 0))
-                bb=screen.blit(btnBack2, (x, y))
+                bb=screen.blit(btnBack2, (x, y+200))
             
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
