@@ -45,7 +45,7 @@ ast3=pygame.image.load("asteroid3.png").convert_alpha()
 #Update and refresh the display to end this frame
 pygame.display.flip() #<-- refresh the display
 x = 0
-y = 420
+y = 450
 direction=4
 esizex = 28
 esizey = 23
@@ -66,6 +66,7 @@ edirect = "right"
 count = 0
 countmax = 50
 down = "no"
+prevdir = "right"
 
 for each in range(times):
     a=0
@@ -118,7 +119,9 @@ for x in ex:
 ##                break
 ##            elif ex[e] <= 10:
 ##                down="yes"
-##                edirect = "right"
+##                edirect = "right"                        edirect = "right"
+##                        break
+
 ##                break
 ##
 ##            
@@ -187,34 +190,43 @@ try:
             x=x-2.5
         elif direction==2 and x+55<640:
             x=x+2.5
-        
-        if count==countmax:
+
+        #Move the Enemies
+        if count>=countmax:
 ##            moveenemies(edirect)
-            ##    down = "no"
-    
-            if down == "yes":
+            
+            if edirect == "down" and prevdir != "down":
                 for ind in range(len(ex)):
                     ey[ind] += 23
-
-                down = "no"
-
+                prevdir = edirect
+                    
             elif edirect == "right":
                 for ind in range(len(ex)):
                     ex[ind] += 4.5
+                prevdir = edirect
+                
             elif edirect == "left":
                 for ind in range(len(ex)):
                     ex[ind] -= 4.5
-                            
+                prevdir = edirect
+                
             for e in range(len(estatus)):
                 if estatus[e] == "alive":
-                    if ex[e] + 28 >= 630:
-                        down="yes"
+                    if ex[e] + 28 >= 630 and prevdir != "down":
+                        edirect = "down"
+                        break
+                    elif ex[e] + 28 >= 630 and prevdir == "down":
                         edirect = "left"
                         break
-                    elif ex[e] <= 10:
-                        down="yes"
+                        
+                    elif ex[e] <= 10 and prevdir != "down":
+                        edirect = "down"
+                        break
+                    elif ex[e] <= 10 and prevdir == "down":
                         edirect = "right"
                         break
+
+            
             
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
@@ -225,8 +237,8 @@ try:
                 if ev.key == K_RIGHT:   # right is pressed
                     direction=2
                 if ev.key == K_SPACE:
-                    laserx.append(x + 23)
-                    lasery.append(y - 15)
+                    laserx.append(x + 11.5)
+                    lasery.append(y - 12.5)
                     lstatus.append('active')
             
             elif ev.type == KEYUP: #When you let go of the key, to stop it and not interfere with other keys
