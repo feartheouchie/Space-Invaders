@@ -152,7 +152,7 @@ keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
 try:
     while keepGoing:
         clock.tick(60) #<-- Set a constant frame rate, argument is frames per second
-        if count == countmax:
+        if count >= countmax:
             count = 0
         count += 1
         screen.blit(background, (-1, -1))
@@ -183,6 +183,13 @@ try:
             if lstatus[i] == 'active':
                 screen.blit(laser1, (laserx[i], lasery[i]))
             lasery[i] -= 2
+
+        for i in ey:
+            if i>=460:
+                pygame.display.flip()
+                
+        #Delet the laser after it moves off the screen
+            
             #Maybe later find a way to remove things after the laser gets far from the screen to save some space, possibly use [-1]
        
         #move the ship
@@ -225,7 +232,6 @@ try:
                     elif ex[e] <= 10 and prevdir == "down":
                         edirect = "right"
                         break
-
             
             
         for ev in pygame.event.get():
