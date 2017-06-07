@@ -183,10 +183,6 @@ try:
             if lstatus[i] == 'active':
                 screen.blit(laser1, (laserx[i], lasery[i]))
             lasery[i] -= 2
-
-        for i in ey:
-            if i>=460:
-                pygame.display.flip()
                 
         #Delet the laser after it moves off the screen
             
