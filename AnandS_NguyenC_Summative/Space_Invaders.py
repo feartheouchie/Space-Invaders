@@ -67,6 +67,7 @@ count = 0
 countmax = 50
 down = "no"
 prevdir = "right"
+lcount = 30
 
 for each in range(times):
     a=0
@@ -152,9 +153,14 @@ keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
 try:
     while keepGoing:
         clock.tick(60) #<-- Set a constant frame rate, argument is frames per second
+
         if count >= countmax:
             count = 0
         count += 1
+
+        if lcount < 30:
+            lcount += 1
+            
         screen.blit(background, (-1, -1))
         screen.blit(spaceship1, (x, y))
         screen.blit(ast, (20, 350))
@@ -180,14 +186,18 @@ try:
 
         #laser coordinates
         for i in range(len(laserx)):
+            #Move the lasers
             if lstatus[i] == 'active':
                 screen.blit(laser1, (laserx[i], lasery[i]))
-            lasery[i] -= 2
+            lasery[i] -= 3
+
+            #Delete the lasers from the list
+            if lasery[i] >= 1000:
+                del lasery[i]
+                del laserx[i]
+                del lstatus[i]
                 
-        #Delet the laser after it moves off the screen
             
-            #Maybe later find a way to remove things after the laser gets far from the screen to save some space, possibly use [-1]
-       
         #move the ship
         if direction==1 and x > 0:
             x=x-2.5
@@ -200,7 +210,7 @@ try:
             
             if edirect == "down" and prevdir != "down":
                 for ind in range(len(ex)):
-                    ey[ind] += 23
+                    ey[ind] += 15
                 prevdir = edirect
                     
             elif edirect == "right":
@@ -228,7 +238,8 @@ try:
                     elif ex[e] <= 10 and prevdir == "down":
                         edirect = "right"
                         break
-            
+
+
             
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
@@ -238,10 +249,11 @@ try:
                     direction=1
                 if ev.key == K_RIGHT:   # right is pressed
                     direction=2
-                if ev.key == K_SPACE:
+                if ev.key == K_SPACE and lcount == 30:
                     laserx.append(x + 11.5)
                     lasery.append(y - 12.5)
                     lstatus.append('active')
+                    lcount = 0
             
             elif ev.type == KEYUP: #When you let go of the key, to stop it and not interfere with other keys
                 if direction == 1:
