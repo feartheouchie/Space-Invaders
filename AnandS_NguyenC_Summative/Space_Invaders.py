@@ -1,6 +1,7 @@
 
 #Import & initialize the pygame module
 import pygame
+import random
 
 #pygame.locals contains constants like MOUSEMOTION and MOUSEBUTTONUP and QUIT for events. #It's easier to type MOUSEBUTTONUP instead of pygame.locals.MOUSEBUTTONUP
 from pygame.locals import *  
@@ -24,7 +25,7 @@ if platform.system() == "Windows":
 
 #Set-up the main screen display window and caption  in the 
 size = (640,480)  
-screen = pygame.display.set_mode(size) 
+screen = pygame.display.set_mode(size)
 
 #Puts a caption in the bar at the top of the window
 pygame.display.set_caption("SPACE INVADERS")
@@ -33,6 +34,7 @@ background = pygame.image.load("Background.png").convert()
 enemy1 = pygame.image.load("enemy1.png").convert_alpha()
 enemy2 = pygame.image.load("enemy2.png").convert_alpha()
 enemy3 = pygame.image.load("enemy3.png").convert_alpha()
+ufo = pygame.image.load("UFO.png").convert_alpha()
 laser1 = pygame.image.load("GreenLaser.png").convert_alpha() #Friendly laser
 laser2 = pygame.image.load("RedLaser.png").convert_alpha() #Enemy Laser
 
@@ -44,8 +46,13 @@ ast3=pygame.image.load("asteroid3.png").convert_alpha()
 
 #Update and refresh the display to end this frame
 pygame.display.flip() #<-- refresh the display
+
+pygame.font.init()
+
+font = pygame.font.SysFont("Comic Sans MS", 20)
+
 x = 0
-y = 450
+y = 420
 direction=4
 esizex = 28
 esizey = 23
@@ -61,6 +68,7 @@ row=5
 column=10
 ex=[]
 ey=[]
+etype = []
 times=5
 edirect = "right"
 count = 0
@@ -68,33 +76,46 @@ countmax = 50
 down = "no"
 prevdir = "right"
 lcount = 30
+ufox = -51
+ufoy = 10
+ufostatus = "despawned"
+level = 1
+bodycount = 0
 
+#Create the lists with the coordinates and stuff
 for each in range(times):
     a=0
     for each in range(column):
         exx=exbase+a
         ex.append(exx)
         a+=56
-        
-for x in range(column):
+
+for e in range(column):
     row1=250
     ey.append(row1)
-for x in range(column):
+for e in range(column):
     row2=200
     ey.append(row2)
-for x in range(column):
+for e in range(column):
     row3=150
     ey.append(row3)
-for x in range(column):
+for e in range(column):
     row4=100
     ey.append(row4)
-for x in range(column):
+for e in range(column):
     row5=50
     ey.append(row5)
 
-for x in ex:
+for e in ex:
     estatus.append('alive')
 
+for e in range(20):
+    etype.append(1)
+for e in range(20):
+    etype.append(2)
+for e in range(10):
+    etype.append(3)
+    
 ##def moveenemies(edirect):
 ##    global ex, ey, exbase, estatus
 ##    down = "no"
@@ -140,8 +161,7 @@ for x in ex:
 ##            for e in range(len(ey)):
 ##                if estatus[e] == "alive":
 ##                    #ey[e] += 23
-##           '''         
-        
+##           '''        
                 
                         
         
@@ -154,13 +174,31 @@ try:
     while keepGoing:
         clock.tick(60) #<-- Set a constant frame rate, argument is frames per second
 
+        scoretext = font.render(("Score: " + str(score)), True, (255, 255, 255))
+
+        
         if count >= countmax:
             count = 0
         count += 1
 
         if lcount < 30:
             lcount += 1
-            
+
+        #Spawning the UFO for bonus points
+        #ufospawn = random.randint(1, 100)
+        ufospawn = 77
+        if ufospawn == 77 and ufostatus == "despawned":
+            ufox = -51
+            ufoy = 10
+            ufostatus = "spawned"
+        if ufostatus == "spawned":
+            screen.blit(ufo, (ufox, ufoy))
+            ufox += 1
+            pygame.display.flip()
+        if ufox > 650:
+            ufostatus = "despawned"
+
+        
         screen.blit(background, (-1, -1))
         screen.blit(spaceship1, (x, y))
         screen.blit(ast, (20, 350))
@@ -177,13 +215,67 @@ try:
 
         #Check if a laser hits an enemy
         for i in range(len(ex)):
+            bodycount = 0
             for j in range(len(laserx)):
                 if laserx[j] + 3.5 >= ex[i] and laserx[j] + 3.5 <= ex[i] + esizex and (lasery[j] <= ey[i] + esizey and lasery[j] >= ey[i]) and lstatus[j] == "active" and estatus[i] == "alive":
                     estatus[i] = "dead"
                     lstatus[j] = "inactive"
                     countmax -= 1
-                    #lstatus
 
+                    if etype[i] == 1:
+                        score += 10
+                    elif etype[i] == 2:
+                        score += 20
+                    elif etype[i] == 3:
+                        score += 40
+                        
+            if estatus[i] == "dead":
+                bodycount += 1
+
+        #reset after a level
+        if bodycount >= 50:
+            level += 1
+            ex = []
+            ey = []
+            estatus = []
+            for each in range(times):
+                a=0
+                for each in range(column):
+                    exx=exbase+a
+                    ex.append(exx)
+                    a+=56
+            
+            for e in range(column):
+                row1=250
+                ey.append(row1)
+            for e in range(column):
+                row2=200
+                ey.append(row2)
+            for e in range(column):
+                row3=150
+                ey.append(row3)
+            for e in range(column):
+                row4=100
+                ey.append(row4)
+            for e in range(column):
+                row5=50
+                ey.append(row5)
+
+            for e in ex:
+                estatus.append('alive')
+
+##            time.sleep(0.5)
+##            for e in range(20):
+##                screen.blit(enemy1)
+##            time.sleep(0.01)
+##            for e in range(20, 40):
+##                screen.blit(enemy2)
+##            time.sleep(0.01)
+##            for e in range(enemy3):
+##                screen.blit(enemy3)
+##            time.sleep(0.01)
+##            pygame.display.flip()
+            
         #laser coordinates
         for i in range(len(laserx)):
             #Move the lasers
@@ -196,8 +288,12 @@ try:
                 del lasery[i]
                 del laserx[i]
                 del lstatus[i]
-                
             
+                lasery.pop(lasery[i])
+                laserx.pop(laserx[i])
+                lstatus.pop(lstatus[i])
+                #IDK why, but it only seems to work if I use both
+
         #move the ship
         if direction==1 and x > 0:
             x=x-2.5
@@ -239,7 +335,9 @@ try:
                         edirect = "right"
                         break
 
-
+        #Score Bar
+        pygame.draw.rect(screen, THECOLORS["black"], (0, 450, 640, 30))
+        screen.blit(scoretext, (10, 450))
             
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
@@ -265,5 +363,6 @@ try:
 
            
         pygame.display.flip()
+        pygame.display.flip()
 finally:
-    pygame.quit()  # Kseep this IDLE friendly 
+    pygame.quit()  # Keep this IDLE friendly 

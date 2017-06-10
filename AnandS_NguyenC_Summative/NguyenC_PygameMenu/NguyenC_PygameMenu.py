@@ -1,11 +1,10 @@
 import pygame
-import random
 from pygame.locals import *
 pygame.mixer.init()
 
 pygame.init()  
 
-import os, time
+import os, time, random
 
 import platform
 if platform.system() == "Windows":
