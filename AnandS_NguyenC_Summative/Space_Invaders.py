@@ -39,10 +39,10 @@ laser1 = pygame.image.load("GreenLaser.png").convert_alpha() #Friendly laser
 laser2 = pygame.image.load("RedLaser.png").convert_alpha() #Enemy Laser
 
 
-ast=pygame.image.load("asteroid.png").convert_alpha()
-ast1=pygame.image.load("asteroid1.png").convert_alpha()
-ast2=pygame.image.load("asteroid2.png").convert_alpha()
-ast3=pygame.image.load("asteroid3.png").convert_alpha()
+ast=pygame.image.load("newast.png").convert_alpha()
+ast1=pygame.image.load("newast1.png").convert_alpha()
+ast2=pygame.image.load("newast2.png").convert_alpha()
+ast3=pygame.image.load("newast3.png").convert_alpha()
 
 #Update and refresh the display to end this frame
 pygame.display.flip() #<-- refresh the display
@@ -229,15 +229,23 @@ try:
                     elif etype[i] == 3:
                         score += 40
                         
-            if estatus[i] == "dead":
+        bodycount = 0
+        for i in estatus:
+            if i == "dead":
                 bodycount += 1
-
+                
         #reset after a level
         if bodycount >= 50:
             level += 1
             ex = []
             ey = []
             estatus = []
+            countmax = 50
+            edirect = "right"
+            prevdir = "right"
+            lstatus = []
+            laserx = []
+            lasery = []
             for each in range(times):
                 a=0
                 for each in range(column):
