@@ -64,6 +64,7 @@ lasery = []
 lstatus = []
 exbase = 10
 estatus=[]
+efront = []
 row=5
 column=10
 ex=[]
@@ -81,6 +82,7 @@ ufoy = 10
 ufostatus = "despawned"
 level = 1
 bodycount = 0
+respawn = "no"
 
 #Create the lists with the coordinates and stuff
 for each in range(times):
@@ -115,8 +117,13 @@ for e in range(20):
     etype.append(2)
 for e in range(10):
     etype.append(3)
+
+for e in range(40):
+    efront.append("yes")
+for e in range(10):
+    efront.append("no")
     
-##def moveenemies(edirect):
+##def moveenemies(edirect):01
 ##    global ex, ey, exbase, estatus
 ##    down = "no"
 ##    
@@ -175,7 +182,8 @@ try:
         clock.tick(60) #<-- Set a constant frame rate, argument is frames per second
 
         scoretext = font.render(("Score: " + str(score)), True, (255, 255, 255))
-
+        leveltext = font.render(("Level " + str(level)), True, (255, 255, 255))
+        livestext = font.render(("Lives: "), True, (255, 255, 255))
         
         if count >= countmax:
             count = 0
@@ -202,6 +210,24 @@ try:
         screen.blit(background, (-1, -1))
         screen.blit(spaceship1, (x, y))
         screen.blit(ast, (20, 350))
+
+        #A E S T H E T I C
+        if respawn == "yes":
+            time.sleep(0.5)
+            for e in range(20):
+                screen.blit(enemy1, (ex[e], ey[e]))
+                pygame.display.flip()
+            time.sleep(0.1)
+            for e in range(20, 40):
+                screen.blit(enemy2, (ex[e], ey[e]))
+                pygame.display.flip()
+            time.sleep(0.1)
+            for e in range(40, 50):
+                screen.blit(enemy3, (ex[e], ey[e]))
+                pygame.display.flip()
+            time.sleep(0.1)
+            respawn = "no"
+
 
         for i in range(20):
             if estatus[i] == "alive":
@@ -234,7 +260,7 @@ try:
             if i == "dead":
                 bodycount += 1
                 
-        #reset after a level
+        #reset variables after a level
         if bodycount >= 50:
             level += 1
             ex = []
@@ -271,41 +297,30 @@ try:
 
             for e in ex:
                 estatus.append('alive')
-
-##            time.sleep(0.5)
-##            for e in range(20):
-##                screen.blit(enemy1)
-##            time.sleep(0.01)
-##            for e in range(20, 40):
-##                screen.blit(enemy2)
-##            time.sleep(0.01)
-##            for e in range(enemy3):
-##                screen.blit(enemy3)
-##            time.sleep(0.01)
-##            pygame.display.flip()
+            respawn = "yes"
             
         #laser coordinates
         for i in range(len(laserx)):
             #Move the lasers
             if lstatus[i] == 'active':
                 screen.blit(laser1, (laserx[i], lasery[i]))
-            lasery[i] -= 3
+            lasery[i] -= 4
 
             #Delete the lasers from the list
             if lasery[i] >= 1000:
-                del lasery[i]
-                del laserx[i]
-                del lstatus[i]
+                del lasery[i-1]
+                del laserx[i-1]
+                del lstatus[i-1]
             
                 lasery.pop(lasery[i])
                 laserx.pop(laserx[i])
                 lstatus.pop(lstatus[i])
-                #IDK why, but it only seems to work if I use both
+                #Neither of these work lmao
 
         #move the ship
         if direction==1 and x > 0:
             x=x-2.5
-        elif direction==2 and x+55<640:
+        elif direction==2 and x+31<640:
             x=x+2.5
 
         #Move the Enemies
@@ -346,6 +361,9 @@ try:
         #Score Bar
         pygame.draw.rect(screen, THECOLORS["black"], (0, 450, 640, 30))
         screen.blit(scoretext, (10, 450))
+        screen.blit(leveltext, (200, 450))
+        screen.blit(livestext, (300, 450))
+        
             
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT: #<-- this special event type happens when the window is closed
