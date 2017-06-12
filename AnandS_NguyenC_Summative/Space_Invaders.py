@@ -12,6 +12,7 @@ from pygame.locals import *
 from pygame.color import THECOLORS
 #c=(255,0,0) instead of THECOLORS['red']????
 
+
 # initial library itself
 pygame.init()  
 

@@ -24,10 +24,13 @@ pygame.display.flip()
 clock = pygame.time.Clock() 
 keepGoing = True 	    
 
+#font
 pygame.font.init()
 font_path = "PixelSplitter-Bold.ttf"
 font_size = 10
+font_size2 = 20
 fontObj = pygame.font.Font(font_path, font_size)
+fontObj2 = pygame.font.Font(font_path, font_size2)
 
 #objects
 spaceship=pygame.image.load("spaceship1.png").convert_alpha()
@@ -54,6 +57,10 @@ credittext22 = fontObj.render(('Shashank Anand'), True, (255,255,255))
 musictext = fontObj.render(('Music'), True, (255,255,255))
 musictextt = fontObj.render(('Space Song'), True, (255,255,255))
 
+enemies=fontObj2.render(('Enemies'), True, (255,255,255))
+ufotext=fontObj2.render(('UFO'), True, (255,255,255))
+asteroidtext=fontObj2.render(('Asteroids'), True, (255,255,255))
+
 instructionstext1 = fontObj.render(('Use arrow keys to move your spaceship'), True, (255,255,255))
 instructionstext2 = fontObj.render(('Press spacebar to shoot'), True, (255,255,255))
 instructionstext3 = fontObj.render(('Dodge lasers by hiding behind the asteroids'), True, (255,255,255))
@@ -62,7 +69,7 @@ hp=fontObj.render(('12 HP'), True, (0,245,46))
 orange=fontObj.render(('10 pts'), True, (0,245,46))
 blue=fontObj.render(('20 pts'), True, (0,245,46))
 green=fontObj.render(('40 pts'), True, (0,245,46))
-ufotext=fontObj.render(('??? pts'), True, (0,245,46))
+ufopts=fontObj.render(('??? pts'), True, (0,245,46))
 
 #buttons
 btnStart=pygame.image.load("start\startbutt1.png").convert_alpha()
@@ -143,7 +150,6 @@ try:
                 be=screen.blit(btnExit,(x,y+100))
                 screen.blit(credit2, (x-240, y+250))
                 
-
             if s.collidepoint(a) and volume!="mute":
                 screen.blit(sound2, (600, 450))
 
@@ -204,47 +210,57 @@ try:
                 
             bb=screen.blit(btnBack1,(x,y+200))
 
-            screen.blit(instructionstext1, (25,125))
-            screen.blit(instructionstext2, (25,150))
-            screen.blit(instructionstext3, (25,175))
+            screen.blit(instructionstext1, (100,125))
+            screen.blit(instructionstext2, (100,150))
+            screen.blit(instructionstext3, (100,175))
             
             screen.blit(orangeenemy, (425,250))
-            screen.blit(blueenemy, (375,250))
-            screen.blit(greenenemy, (325,250))
+            screen.blit(blueenemy, (475,250))
+            screen.blit(greenenemy, (525,250))
 
             screen.blit(orange, (425,275))
-            screen.blit(blue, (375,275))
-            screen.blit(green, (325,275))
-            screen.blit(ufotext, (175,275))
+            screen.blit(blue, (475,275))
+            screen.blit(green, (525,275))
+            screen.blit(ufopts, (275,275))
 
-            screen.blit(spaceship, (350, 100))
-            screen.blit(asteroid, (25, 250))
-            screen.blit(ufo, (175, 250))
+            screen.blit(asteroidtext, (75,225))
+            screen.blit(enemies, (425,225))
+            screen.blit(ufotext, (275,225))
 
-            screen.blit(hp, (25, 250))
+            screen.blit(spaceship, (400, 100))
+            screen.blit(asteroid, (75, 250))
+            screen.blit(ufo, (275, 250))
+
+            screen.blit(hp, (125, 275))
 
             if bb.collidepoint(a):
                 screen.blit(background3, (0, 0))
 
                 blitsound()
+
+                screen.blit(instructionstext1, (100,125))
+                screen.blit(instructionstext2, (100,150))
+                screen.blit(instructionstext3, (100,175))
                 
-                screen.blit(instructionstext1, (25,125))
-                screen.blit(instructionstext2, (25,150))
-                screen.blit(instructionstext3, (25,175))
                 screen.blit(orangeenemy, (425,250))
-                screen.blit(blueenemy, (375,250))
-                screen.blit(greenenemy, (325,250))
+                screen.blit(blueenemy, (475,250))
+                screen.blit(greenenemy, (525,250))
 
                 screen.blit(orange, (425,275))
-                screen.blit(blue, (375,275))
-                screen.blit(green, (325,275))
-                screen.blit(ufotext, (175,275))
+                screen.blit(blue, (475,275))
+                screen.blit(green, (525,275))
+                screen.blit(ufopts, (275,275))
 
-                screen.blit(spaceship, (350, 100))
-                screen.blit(asteroid, (25, 250))
-                screen.blit(ufo, (175, 250))
+                screen.blit(asteroidtext, (75,225))
+                screen.blit(enemies, (425,225))
+                screen.blit(ufotext, (275,225))
 
-                screen.blit(hp, (25, 250)) 
+                screen.blit(spaceship, (400, 100))
+                screen.blit(asteroid, (75, 250))
+                screen.blit(ufo, (275, 250))
+
+                screen.blit(hp, (125, 275))
+                
                 bb=screen.blit(btnBack2, (x, y+200))
 
             if s.collidepoint(a) and volume!="mute":
@@ -281,8 +297,7 @@ try:
             a=pygame.mouse.get_pos()
                 
             screen.blit(background3, (0, 0))
-           
-            
+        
             if volume=="sound":
                 s=screen.blit(sound, (600, 450))
 
@@ -345,7 +360,5 @@ try:
                   
         pygame.display.flip()
               
-                    
-
 finally:
     pygame.quit()  
