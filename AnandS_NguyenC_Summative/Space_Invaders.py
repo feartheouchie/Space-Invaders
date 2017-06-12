@@ -83,6 +83,8 @@ ufostatus = "despawned"
 level = 1
 bodycount = 0
 respawn = "no"
+elaserx = []
+elasery = []
 
 #Create the lists with the coordinates and stuff
 for each in range(times):
@@ -148,20 +150,29 @@ try:
             jlist = []
             listmax = 0
             listmin = 0
+            front = ""
             if estatus[i] == "alive":
                 for j in range(-5, 6):
                     if ey[i] + 50*j in ey:
                         jlist.append(j)
-                for k in jlist:
-                    if estatus[i + jlist[k]] == "alive":
-                        eylist.append(ey[i] + 50*j)
+##                for k in jlist:
+##                    if estatus[i + jlist[k]] == "alive":
+##                        eylist.append(ey[i] + 50*j)
                 e = 1
                 for l in eylist:
                     if l > e:
                         l = e
                         listmax = l
+            
+            #print(jlist) 
+            if estatus == "alive" and efront[i] == "yes":
+                firechance = random.randint(1, 100)
+                if firechance >= 50:
+                    elaserx.append(ex[i]+23)
+                    elasery.append(ex[i]+5)
                 
-                
+        for i in range(len(elaserx)):
+            screen.blit(laser2, (ex[i], ey[i]))
 
         #Spawning the UFO for bonus points
         #ufospawn = random.randint(1, 100)
