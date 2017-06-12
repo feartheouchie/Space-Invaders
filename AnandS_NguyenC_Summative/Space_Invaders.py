@@ -121,10 +121,11 @@ for e in range(20):
 for e in range(10):
     etype.append(3)
 
+for e in range(10):
+    efront.append("yes")
 for e in range(40):
     efront.append("no")
-for e in range(10):
-    efront.append("yes")    
+
         
 #The game loop
 clock = pygame.time.Clock() #<-- used to control the frame rate
@@ -137,6 +138,10 @@ try:
         scoretext = font.render(("Score: " + str(score)), True, (255, 255, 255))
         leveltext = font.render(("Level " + str(level)), True, (255, 255, 255))
         livestext = font.render(("Lives: "), True, (255, 255, 255))
+
+        screen.blit(background, (-1, -1))
+        screen.blit(spaceship1, (x, y))
+        screen.blit(ast, (20, 350))
         
         if count >= countmax:
             count = 0
@@ -146,6 +151,10 @@ try:
             lcount += 1
 
         #Making the enemies shoot at random times
+        maximumy = 0
+        efront = []
+        for i in range(len(estatus)):
+            efront.append("no")
         for i in range(len(estatus)):
             eylist = []
             jlist = []
@@ -153,46 +162,44 @@ try:
             listmin = 0
             front = ""
             if estatus[i] == "alive":
-                for j in range(-5, 6):
-                    if ey[i] + 50*j in ey:
-                        jlist.append(j)
-##                for k in jlist:
-##                    if estatus[i + jlist[k]] == "alive":
-##                        eylist.append(ey[i] + 50*j)
-                e = 1
-                for l in eylist:
-                    if l > e:
-                        l = e
-                        listmax = l
-            
-            #print(jlist) 
+                  if ey[i] >= maximumy:
+                      maximumy = ey[i]
+        for i in range(len(estatus)):
+            if estatus[i] == "alive":
+                if ey[i]== maximumy:
+                    efront[i] = "yes"
+            if efront[i] == "yes":            
+                print(i)
+                    
+        for i in range(len(estatus)):
             if estatus == "alive" and efront[i] == "yes":
                 firechance = random.randint(1, 100)
                 if firechance >= 50:
+                    print(len(ex))
                     elaserx.append(ex[i]+23)
                     elasery.append(ex[i]+5)
                 
         for i in range(len(elaserx)):
             screen.blit(laser2, (ex[i], ey[i]))
 
-        #Spawning the UFO for bonus points
-        #ufospawn = random.randint(1, 100)
-        ufospawn = 77
-        if ufospawn == 77 and ufostatus == "despawned":
-            ufox = -51
-            ufoy = 10
-            ufostatus = "spawned"
-        if ufostatus == "spawned":
-            screen.blit(ufo, (ufox, ufoy))
-            ufox += 1
-            #pygame.display.flip()
-        if ufox > 650:
-            ufostatus = "despawned"
+ 
+    
 
         
-        screen.blit(background, (-1, -1))
-        screen.blit(spaceship1, (x, y))
-        screen.blit(ast, (20, 350))
+       #Spawning the UFO for bonus points
+        #ufospawn = random.randint(1, 100)
+##        ufospawn = 77
+##        if ufospawn == 77 and ufostatus == "despawned":
+##            ufostatus = "spawned"
+##        if ufostatus == "spawned":
+        screen.blit(ufo, (ufox, ufoy))
+        ufox += 1
+        if ufox > 650:
+##            ufostatus = "despawned"
+            ufox = -51
+            ufoy = 10
+
+
 
         #A E S T H E T I C
         if respawn == "yes":
@@ -370,8 +377,7 @@ try:
                     if ev.key == K_RIGHT:
                         direction = 4
 
-           
-        pygame.display.flip()
+
         pygame.display.flip()
 finally:
     pygame.quit()  # Keep this IDLE friendly 
