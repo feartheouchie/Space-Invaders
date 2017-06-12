@@ -98,7 +98,7 @@ def blitsound():
         m=screen.blit(mute, (600, 450))
 
 #music
-pygame.mixer.music.load("DANCE_TILL_YOURE_DEAD.wav")
+pygame.mixer.music.load("shootingstars.mp3")
 
 try:
     while keepGoing:
