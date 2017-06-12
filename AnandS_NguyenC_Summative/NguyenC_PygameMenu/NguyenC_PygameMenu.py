@@ -34,6 +34,10 @@ spaceship=pygame.image.load("spaceship1.png").convert_alpha()
 asteroid=pygame.image.load("newast.png").convert_alpha()
 ufo=pygame.image.load("UFO.png").convert_alpha()
 
+#enemies
+orangeenemy=pygame.image.load("enemy1.png").convert_alpha()
+blueenemy=pygame.image.load("enemy2.png").convert_alpha()
+greenenemy=pygame.image.load("enemy3.png").convert_alpha()
 
 #sound
 mute=pygame.image.load("volume\mute.png").convert_alpha()
@@ -45,7 +49,10 @@ sound2=pygame.image.load("volume\sound2.png").convert_alpha()
 credit = fontObj.render(('Credits'), True, (255,255,255))
 credittext1 = fontObj.render(('Graphic Designer'), True, (255,255,255))
 credittext2 = fontObj.render(('Software Engineer'), True, (255,255,255))
+credittext11 = fontObj.render(('Candace Nguyen'), True, (255,255,255))
+credittext22 = fontObj.render(('Shashank Anand'), True, (255,255,255))
 musictext = fontObj.render(('Music'), True, (255,255,255))
+musictextt = fontObj.render(('Space Song'), True, (255,255,255))
 
 instructionstext1 = fontObj.render(('Use arrow keys to move your spaceship'), True, (255,255,255))
 instructionstext2 = fontObj.render(('Press spacebar to shoot'), True, (255,255,255))
@@ -56,11 +63,6 @@ orange=fontObj.render(('10 pts'), True, (0,245,46))
 blue=fontObj.render(('20 pts'), True, (0,245,46))
 green=fontObj.render(('40 pts'), True, (0,245,46))
 ufotext=fontObj.render(('??? pts'), True, (0,245,46))
-
-#enemies
-orangeenemy=pygame.image.load("enemy1.png").convert_alpha()
-blueenemy=pygame.image.load("enemy2.png").convert_alpha()
-greenenemy=pygame.image.load("enemy3.png").convert_alpha()
 
 #buttons
 btnStart=pygame.image.load("start\startbutt1.png").convert_alpha()
@@ -82,6 +84,11 @@ music = "start"
 #blit sound
 m=screen.blit(mute, (600, 450))
 s=screen.blit(sound, (600, 450))
+def blitsound():
+    if volume=="sound":
+        s=screen.blit(sound, (600, 450))
+    if volume=="mute":
+        m=screen.blit(mute, (600, 450))
 
 #music
 pygame.mixer.music.load("DANCE_TILL_YOURE_DEAD.wav")
@@ -94,11 +101,7 @@ try:
         x=265
         y=200
         if state=="menu":
-            if volume=="sound":
-                s=screen.blit(sound, (600, 450))
-
-            if volume=="mute":
-                m=screen.blit(mute, (600, 450))
+            blitsound()
                 
             a=pygame.mouse.get_pos()
         
@@ -110,6 +113,7 @@ try:
 
             if bn.collidepoint(a):
                 screen.blit(background2, (0, 0))
+                blitsound()
                 bn=screen.blit(btnStart2, (x, y))
                 bi=screen.blit(btnInstruct,(x,y+50))    
                 be=screen.blit(btnExit,(x,y+100))
@@ -117,6 +121,7 @@ try:
                 
             if bi.collidepoint(a):
                 screen.blit(background2, (0, 0))
+                blitsound()
                 bn=screen.blit(btnStart, (x, y))
                 bi=screen.blit(btnInstruct2,(x,y+50))    
                 be=screen.blit(btnExit,(x,y+100))
@@ -124,6 +129,7 @@ try:
 
             if be.collidepoint(a):
                 screen.blit(background2, (0, 0))
+                blitsound()
                 bn=screen.blit(btnStart, (x, y))
                 bi=screen.blit(btnInstruct,(x,y+50))    
                 be=screen.blit(btnExit2,(x,y+100))
@@ -131,6 +137,7 @@ try:
 
             if c.collidepoint(a):
                 screen.blit(background2, (0, 0))
+                blitsound()
                 bn=screen.blit(btnStart, (x, y))
                 bi=screen.blit(btnInstruct,(x,y+50))    
                 be=screen.blit(btnExit,(x,y+100))
@@ -172,20 +179,15 @@ try:
                                 volume="mute"
                             else:
                                 volume="sound"
-
+    
         if state=="game":  
             # ---------------code for the game-------------------               
             a=pygame.mouse.get_pos()
-
             screen.blit(background3, (0, 0))
             bb=screen.blit(btnBack1,(x,y+200))
-
-
             if bb.collidepoint(a):
                 screen.blit(background3, (0, 0))
                 bb=screen.blit(btnBack2, (x, y+200))
-
-            
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT: 
                     keepGoing = False
@@ -194,18 +196,11 @@ try:
                     if bb.collidepoint(a):
                         state="menu"
 
-           
         if state=="instructions":
             a=pygame.mouse.get_pos()
-
-        
             screen.blit(background3, (0, 0))
-
-            if volume=="sound":
-                s=screen.blit(sound, (600, 450))
-
-            if volume=="mute":
-                m=screen.blit(mute, (600, 450))
+            
+            blitsound()
                 
             bb=screen.blit(btnBack1,(x,y+200))
 
@@ -228,9 +223,11 @@ try:
 
             screen.blit(hp, (25, 250))
 
-
             if bb.collidepoint(a):
                 screen.blit(background3, (0, 0))
+
+                blitsound()
+                
                 screen.blit(instructionstext1, (25,125))
                 screen.blit(instructionstext2, (25,150))
                 screen.blit(instructionstext3, (25,175))
@@ -274,27 +271,62 @@ try:
                     if bb.collidepoint(a):
                         state="menu"
                     else:
-                         if m.collidepoint(a) or s.collidepoint(a):
+                        if m.collidepoint(a) or s.collidepoint(a):
                             if volume=="sound":
                                 volume="mute"
                             else:
                                 volume="sound"
 
-
         if state=="credits":
             a=pygame.mouse.get_pos()
-
+                
             screen.blit(background3, (0, 0))
-            screen.blit(credittext1, (25,125))
-            screen.blit(credittext2, (25,150))
-            screen.blit(musictext, (25,175))
-            bb=screen.blit(btnBack1,(x,y+200))
+           
+            
+            if volume=="sound":
+                s=screen.blit(sound, (600, 450))
 
+            if volume=="mute":
+                m=screen.blit(mute, (600, 450))
+                
+            screen.blit(credittext1, (100,125))
+            screen.blit(credittext2, (100,150))
+            screen.blit(musictext, (100,175))
+            
+            screen.blit(credittext11, (400,125))
+            screen.blit(credittext22, (400,150))
+            screen.blit(musictextt, (400,175))
+            
+            bb=screen.blit(btnBack1,(x,y+200))
 
             if bb.collidepoint(a):
                 screen.blit(background3, (0, 0))
+                blitsound()
                 bb=screen.blit(btnBack2, (x, y+200))
+                screen.blit(credittext1, (100,125))
+                screen.blit(credittext2, (100,150))
+                screen.blit(musictext, (100,175))
+                
+                screen.blit(credittext11, (400,125))
+                screen.blit(credittext22, (400,150))
+                screen.blit(musictextt, (400,175))
+                
+            if s.collidepoint(a) and volume!="mute":
+                screen.blit(sound2, (600, 450))
 
+            if music == "start" and volume == "sound":
+                pygame.mixer.music.play(-1)
+                music = "playing"
+            elif volume == "mute":
+                pygame.mixer.music.pause()
+                music = "stopped"
+                if m.collidepoint(a):
+                    screen.blit(mute2, (600, 450))
+            elif music == "stopped" and volume == "sound":
+                pygame.mixer.music.unpause()
+                music = "playing"
+                if s.collidepoint(a):
+                    screen.blit(sound2, (600, 450))
             
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT: 
@@ -303,6 +335,12 @@ try:
                     pos=pygame.mouse.get_pos()
                     if bb.collidepoint(a):
                         state="menu"
+                    else:
+                         if m.collidepoint(a) or s.collidepoint(a):
+                            if volume=="sound":
+                                volume="mute"
+                            else:
+                                volume="sound"
 
                   
         pygame.display.flip()
