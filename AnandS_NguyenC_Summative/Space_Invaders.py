@@ -119,60 +119,10 @@ for e in range(10):
     etype.append(3)
 
 for e in range(40):
-    efront.append("yes")
-for e in range(10):
     efront.append("no")
-    
-##def moveenemies(edirect):01
-##    global ex, ey, exbase, estatus
-##    down = "no"
-##    
-##    if down == "yes":
-##        for ind in range(len(ex)):
-##            ey[ind] += 23
-##
-##        down = "no"
-##
-##    elif edirect == "right":
-##        for ind in range(len(ex)):
-##            ex[ind] += 4.5
-##    elif edirect == "left":
-##        for ind in range(len(ex)):
-##            ex[ind] -= 4.5
-##                    
-##    for e in range(len(estatus)):
-##        if estatus[e] == "alive":
-##            if ex[e] + 28 >= 630:
-##                down="yes"
-##                edirect = "left"
-##                break
-##            elif ex[e] <= 10:
-##                down="yes"
-##                edirect = "right"                        edirect = "right"
-##                        break
-
-##                break
-##
-##            
-##    '''if switched == "yes" and edirect == "right":
-##        edirect = "left"
-##        for e in range(len(estatus)):
-##            for e in range(len(ey)):
-##                if estatus[e] == "alive":
-##                    #ey[e] += 23'''
-##                    
-##    '''if switched == "yes" and edirect == "left":
-##        edirect = "right"
-##
-##        for e in range(len(estatus)):
-##            for e in range(len(ey)):
-##                if estatus[e] == "alive":
-##                    #ey[e] += 23
-##           '''        
-                
-                        
+for e in range(10):
+    efront.append("yes")    
         
-
 #The game loop
 clock = pygame.time.Clock() #<-- used to control the frame rate
 keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
@@ -187,10 +137,31 @@ try:
         
         if count >= countmax:
             count = 0
-        count += 1
+        count += 1 
 
         if lcount < 30:
             lcount += 1
+
+        #Making the enemies shoot at random times
+        for i in range(len(estatus)):
+            eylist = []
+            jlist = []
+            listmax = 0
+            listmin = 0
+            if estatus[i] == "alive":
+                for j in range(-5, 6):
+                    if ey[i] + 50*j in ey:
+                        jlist.append(j)
+                for k in jlist:
+                    if estatus[i + jlist[k]] == "alive":
+                        eylist.append(ey[i] + 50*j)
+                e = 1
+                for l in eylist:
+                    if l > e:
+                        l = e
+                        listmax = l
+                
+                
 
         #Spawning the UFO for bonus points
         #ufospawn = random.randint(1, 100)
@@ -202,7 +173,7 @@ try:
         if ufostatus == "spawned":
             screen.blit(ufo, (ufox, ufoy))
             ufox += 1
-            pygame.display.flip()
+            #pygame.display.flip()
         if ufox > 650:
             ufostatus = "despawned"
 
