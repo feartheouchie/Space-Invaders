@@ -86,6 +86,16 @@ bodycount = 0
 respawn = "no"
 elaserx = []
 elasery = []
+listreset = "no"
+##column1x = []
+##column1y = []
+##column2x = []
+##column2y = []
+##column3x = []
+##column3y = []
+##column4x = []
+##column4y = []
+##column5y = []
 
 #Create the lists with the coordinates and stuff
 for each in range(times):
@@ -126,6 +136,9 @@ for e in range(10):
 for e in range(40):
     efront.append("no")
 
+print(ex)
+print(ey)
+
         
 #The game loop
 clock = pygame.time.Clock() #<-- used to control the frame rate
@@ -151,51 +164,57 @@ try:
             lcount += 1
 
         #Making the enemies shoot at random times
-        maximumy = 0
-        efront = []
+        if listreset == "yes":
+            listreset = "no"
+            shootingx = []
+            shootingy = []
+            efront = []
+
+            #Determining who will shoot the laser
+            for i in range(len(estatus)):
+                efront.append("no")
+            #Columns
+            for i in [10, 66, 122, 178, 234, 290, 346, 402, 458, 514]:
+                #Rows
+                maximumy = 0
+                for j in [250, 200, 150, 100, 50]:
+                    if estatus[i] == "alive":
+                          if ey[j] >= maximumy:
+                              maximumy = j
+                efront[i*maximumy] = "yes" 
+
+##            for i in range(len(estatus)):
+##                if estatus[i] == "alive":
+##                    if ey[i]== maximumy:
+##                        efront[i] = "yes"
+
+        #Actually shooting the laser                
         for i in range(len(estatus)):
-            efront.append("no")
-        for i in range(len(estatus)):
-            eylist = []
-            jlist = []
-            listmax = 0
-            listmin = 0
-            front = ""
-            if estatus[i] == "alive":
-                  if ey[i] >= maximumy:
-                      maximumy = ey[i]
-        for i in range(len(estatus)):
-            if estatus[i] == "alive":
-                if ey[i]== maximumy:
-                    efront[i] = "yes"
-            if efront[i] == "yes":            
-                print(i)
-                    
-        for i in range(len(estatus)):
-            if estatus == "alive" and efront[i] == "yes":
+            if estatus[i] == "alive" and efront[i] == "yes":
                 firechance = random.randint(1, 100)
-                if firechance >= 50:
-                    print(len(ex))
+                if firechance == 50:
+                    #print(len(ex))
                     elaserx.append(ex[i]+23)
-                    elasery.append(ex[i]+5)
+                    elasery.append(ey[i]+5)
                 
         for i in range(len(elaserx)):
-            screen.blit(laser2, (ex[i], ey[i]))
+            screen.blit(laser2, (elaserx[i], elasery[i]))
+            elasery[i] += 2
 
  
     
 
         
        #Spawning the UFO for bonus points
-        #ufospawn = random.randint(1, 100)
-##        ufospawn = 77
-##        if ufospawn == 77 and ufostatus == "despawned":
-##            ufostatus = "spawned"
-##        if ufostatus == "spawned":
-        screen.blit(ufo, (ufox, ufoy))
+        ufospawn = random.randint(1, 100)
+        ufospawn = 77
+        if ufospawn == 77 and ufostatus == "despawned":
+            ufostatus = "spawned"
+        if ufostatus == "spawned":
+            screen.blit(ufo, (ufox, ufoy))
         ufox += 1
         if ufox > 650:
-##            ufostatus = "despawned"
+            ufostatus = "despawned"
             ufox = -51
             ufoy = 10
 
@@ -218,10 +237,12 @@ try:
             time.sleep(0.1)
             respawn = "no"
 
-
+        #Draw the enemies
         for i in range(20):
             if estatus[i] == "alive":
                 screen.blit(enemy1, (ex[i], ey[i]))
+##                if efront[i] == "yes":
+##                    pygame.draw.rect(screen, THECOLORS['blue'], (ex[i], ey[i], 50, 50)) 
         for i in range(20, 40):
             if estatus[i] == "alive":
                 screen.blit(enemy2, (ex[i], ey[i]))
@@ -237,6 +258,7 @@ try:
                     estatus[i] = "dead"
                     lstatus[j] = "inactive"
                     countmax -= 1
+                    listreset = "yes"
 
                     if etype[i] == 1:
                         score += 10
@@ -296,16 +318,13 @@ try:
                 screen.blit(laser1, (laserx[i], lasery[i]))
             lasery[i] -= 4
 
-            #Delete the lasers from the list
-            if lasery[i] >= 1000:
-                del lasery[i-1]
-                del laserx[i-1]
-                del lstatus[i-1]
-            
-                lasery.pop(lasery[i])
-                laserx.pop(laserx[i])
-                lstatus.pop(lstatus[i])
-                #Neither of these work lmao
+        #Delete the lasers from the list
+
+        if len(lasery) > 0:
+            if lasery[-1] < -100:
+                del lasery[-1]
+                del laserx[-1]
+                del lstatus[-1]
 
         #move the ship
         if direction==1 and x > 0:
