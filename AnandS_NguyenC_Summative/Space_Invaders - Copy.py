@@ -28,6 +28,11 @@ if platform.system() == "Windows":
 size = (640,480)  
 screen = pygame.display.set_mode(size)
 
+pygame.font.init()
+font_path = "PixelSplitter-Bold.ttf"
+font_size = 25
+fontObj = pygame.font.Font(font_path, font_size)
+
 #Puts a caption in the bar at the top of the window
 pygame.display.set_caption("SPACE INVADERS")
 spaceship1 = pygame.image.load("Spaceship1.png").convert_alpha()
@@ -39,17 +44,8 @@ ufo = pygame.image.load("UFO.png").convert_alpha()
 laser1 = pygame.image.load("GreenLaser.png").convert_alpha() #Friendly laser
 laser2 = pygame.image.load("RedLaser.png").convert_alpha() #Enemy Laser
 
-#buttons
-resume1=pygame.image.load("resume1.png").convert_alpha()
-menu1=pygame.image.load("menu1.png").convert_alpha()
-quit1=pygame.image.load("quit1.png").convert_alpha()
-
-resume2=pygame.image.load("resume2.png").convert_alpha()
-menu2=pygame.image.load("menu2.png").convert_alpha()
-quit2=pygame.image.load("quit2.png").convert_alpha()
-
 lasersfx = pygame.mixer.Sound('laser.wav')
-bkg = pygame.mixer.Sound('shootingstars.wav')
+bkgmusic = pygame.mixer.Sound('heartofeternity.wav')
 
 ast=pygame.image.load("newast.png").convert_alpha()
 ast1=pygame.image.load("newast1.png").convert_alpha()
@@ -143,9 +139,12 @@ for e in range(40):
 clock = pygame.time.Clock() #<-- used to control the frame rate
 keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
 
-bkg.play()
+bkgmusic.play(-1)
 
-unpausetext = font.render(("Press U to Unpause"), True, (255, 255, 255))
+unpausetext = fontObj.render(("Press U to Unpause"), True, (255, 255, 255))
+quittext = fontObj.render(("Press Q to Quit"), True, (255, 255, 255))
+menutext = fontObj.render(("Press M to return to the Menu"), True, (255, 255, 255))
+
 
 try:
     while keepGoing:
@@ -400,17 +399,20 @@ try:
                         if ev.key == K_RIGHT:
                             direction = 4
         else:
-            r=screen.blit(resume1, (200, 200))
-            m=screen.blit(menu1, (200, 250))
-            q=screen.blit(quit1, (200, 300))
-            
-            screen.blit(unpausetext, (200, 400))
+            screen.blit(unpausetext, (150, 150))
+            screen.blit(menutext, (150, 225))
+            screen.blit(quittext, (150, 300))
             
             
             for ev in pygame.event.get():
                 if ev.type == pygame.KEYDOWN: 
                     if ev.key == K_u:
-                        pause = False 
+                        pause = False
+                    if ev.key == K_m:
+                        state="menu"
+                        print("menu")
+                    if ev.key == K_q:
+                        pygame.quit()
 
         pygame.display.flip()
 finally:
