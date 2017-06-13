@@ -166,35 +166,33 @@ try:
         #Making the enemies shoot at random times
         if listreset == "yes":
             listreset = "no"
-            shootingx = []
-            shootingy = []
+            shootingx = 0
+            shootingy = 0
             efront = []
 
             #Determining who will shoot the laser
             for i in range(len(estatus)):
                 efront.append("no")
-            #Columns
-            for i in [10, 66, 122, 178, 234, 290, 346, 402, 458, 514]:
-                #Rows
-                maximumy = 0
-                for j in [250, 200, 150, 100, 50]:
-                    if estatus[i] == "alive":
-                          if ey[j] >= maximumy:
-                              maximumy = j
-                efront[i*maximumy] = "yes" 
+            #for i in range(10):
+            maximumy = 0
+            front = []
+            for i in range(10):
+                for j in range(i, 50, 10):
+                    if estatus[j] == "alive":
+                        front.append(j)
+                        break
+                    
+            for i in front:
+                efront[i] = "yes"
 
-##            for i in range(len(estatus)):
-##                if estatus[i] == "alive":
-##                    if ey[i]== maximumy:
-##                        efront[i] = "yes"
 
         #Actually shooting the laser                
         for i in range(len(estatus)):
             if estatus[i] == "alive" and efront[i] == "yes":
-                firechance = random.randint(1, 100)
+                firechance = random.randint(1, 500)
                 if firechance == 50:
                     #print(len(ex))
-                    elaserx.append(ex[i]+23)
+                    elaserx.append(ex[i]+16)
                     elasery.append(ey[i]+5)
                 
         for i in range(len(elaserx)):
@@ -241,8 +239,8 @@ try:
         for i in range(20):
             if estatus[i] == "alive":
                 screen.blit(enemy1, (ex[i], ey[i]))
-##                if efront[i] == "yes":
-##                    pygame.draw.rect(screen, THECOLORS['blue'], (ex[i], ey[i], 50, 50)) 
+                if efront[i] == "yes":
+                    pygame.draw.rect(screen, THECOLORS['blue'], (ex[i], ey[i], 50, 50)) 
         for i in range(20, 40):
             if estatus[i] == "alive":
                 screen.blit(enemy2, (ex[i], ey[i]))
