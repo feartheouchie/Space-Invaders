@@ -1,3 +1,8 @@
+#Shashank Anand and Candace Nguyen
+#June 14 2017
+#SPACE INVADERS! - Summative
+#ICS 2O1
+#Ms. Strelkovska
 
 #Import & initialize the pygame module
 import pygame
@@ -93,6 +98,8 @@ asthp2 = 12
 asthp3 = 12
 asthp4 = 12
 shootmax = 998
+lives = 3
+immune = "no"
 
 
 #Create the lists with the coordinates and stuff
@@ -134,9 +141,6 @@ for e in range(10):
 for e in range(40):
     efront.append("no")
 
-print(ex)
-print(ey)
-
         
 #The game loop
 clock = pygame.time.Clock() #<-- used to control the frame rate
@@ -161,34 +165,34 @@ try:
         elif asthp1 >= 4 and asthp1 <= 6:
             screen.blit(ast3, (20, 330))
         elif asthp1 >= 1 and asthp1 <= 3:
-            screen.blit(ast2, (20, 330))
+            screen.blit(ast4, (20, 330))
 
         if asthp2 >= 10:
             screen.blit(ast1, (198, 330))
-        elif asthp2 >=7 and asthp1 <= 9:
+        elif asthp2 >=7 and asthp2 <= 9:
             screen.blit(ast2, (198, 330))
-        elif asthp2 >= 4 and asthp1 <= 6:
+        elif asthp2 >= 4 and asthp2 <= 6:
             screen.blit(ast3, (198, 330))
-        elif asthp2 >= 1 and asthp1 <= 3:
-            screen.blit(ast2, (198, 330))
+        elif asthp2 >= 1 and asthp2 <= 3:
+            screen.blit(ast4, (198, 330))
 
         if asthp3 >= 10:
             screen.blit(ast1, (374, 330))
-        elif asthp3 >=7 and asthp1 <= 9:
+        elif asthp3 >=7 and asthp3 <= 9:
             screen.blit(ast2, (374, 330))
-        elif asthp3 >= 4 and asthp1 <= 6:
+        elif asthp3 >= 4 and asthp3 <= 6:
             screen.blit(ast3, (374, 330))
-        elif asthp3 >= 1 and asthp1 <= 3:
-            screen.blit(ast2, (374, 330))
+        elif asthp3 >= 1 and asthp3 <= 3:
+            screen.blit(ast4, (374, 330))
 
         if asthp4 >= 10:
             screen.blit(ast1, (536, 330))
-        elif asthp4 >=7 and asthp1 <= 9:
+        elif asthp4 >=7 and asthp4 <= 9:
             screen.blit(ast2, (536, 330))
-        elif asthp4 >= 4 and asthp1 <= 6:
+        elif asthp4 >= 4 and asthp4 <= 6:
             screen.blit(ast3, (536, 330))
-        elif asthp4 >= 1 and asthp1 <= 3:
-            screen.blit(ast2, (536, 330))
+        elif asthp4 >= 1 and asthp4 <= 3:
+            screen.blit(ast4, (536, 330))
 
         
         if count >= countmax:
@@ -279,7 +283,6 @@ try:
 
         #Check if friendly laser hits an enemy
         for i in range(len(ex)):
-            bodycount = 0
             for j in range(len(laserx)):
                 if laserx[j] + 3.5 >= ex[i] and laserx[j] + 3.5 <= ex[i] + esizex and (lasery[j] <= ey[i] + esizey and lasery[j] >= ey[i]) and lstatus[j] == "active" and estatus[i] == "alive":
                     estatus[i] = "dead"
@@ -293,11 +296,45 @@ try:
                         score += 20
                     elif etype[i] == 3:
                         score += 40
+##
+##        for i in range(len(ex)):
+##            if elaserx[i] + 3.5 >= 20 and elaserx[i] + 3.5 <= 105 and elasery[i] + 21 >= 330 and elasery[i] + 21 <= 407 and elstatus[i] == "active" and asthp1 > 0:
+##                asthp1 -= 1
+##                elstatus[i] = "inactive"
 
         #Check if enemy laser hits anything
         for i in range(len(elaserx)):
-            i
-                        
+            #Check if it hits a player
+            if elaserx[i] + 3.5 >= x and elaserx[i] + 3.5 <= x + 31 and (elasery[i] + 21 >= y and elasery[i] + 21 <= y + 25) and elstatus[i] == "active":
+                lives -= 1
+                pygame.draw.rect(screen, THECOLORS['blue'], (x, y, 30, 30))
+                elstatus[i] = "inactive"
+
+            #Check if it hits an asteroid
+                
+            #Asteroid 1
+            if elaserx[i] + 3.5 >= 20 and elaserx[i] + 3.5 <= 105 and elasery[i] + 21 >= 330 and elasery[i] + 21 <= 407 and elstatus[i] == "active" and asthp1 > 0:
+                asthp1 -= 1
+                elstatus[i] = "inactive"
+
+            #Asteroid 2
+            if elaserx[i] + 3.5 >= 198 and elaserx[i] + 3.5 <= 283 and elasery[i] + 21 >= 330 and elasery[i] + 21 <= 407 and elstatus[i] == "active" and asthp2 > 0:
+                asthp2 -= 1
+                elstatus[i] = "inactive"
+
+            #Asteroid 3
+            if elaserx[i] + 3.5 >= 374 and elaserx[i] + 3.5 <= 459 and elasery[i] + 21 >= 330 and elasery[i] + 21 <= 407 and elstatus[i]== "active" and asthp3 > 0:
+                asthp3 -= 1
+                elstatus[i] = "inactive"
+
+            #Asteroid 4
+            if elaserx[i] + 3.5 >= 536 and elaserx[i] + 3.5 <= 621 and elasery[i] + 21 >= 330 and elasery[i] + 21 <= 407 and elstatus[i] == "active" and asthp4 > 0:
+                asthp4 -= 1
+                elstatus[i] = "inactive"
+
+
+
+        #Check if everyone's dead                        
         bodycount = 0
         for i in estatus:
             if i == "dead":
@@ -316,6 +353,12 @@ try:
             lstatus = []
             laserx = []
             lasery = []
+            asthp1 = 12
+            asthp2 = 12
+            asthp3 = 12
+            asthp4 = 12
+            x = 0
+            
             for each in range(times):
                 a=0
                 for each in range(column):
