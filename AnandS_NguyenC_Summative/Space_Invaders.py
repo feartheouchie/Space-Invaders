@@ -40,10 +40,10 @@ laser1 = pygame.image.load("GreenLaser.png").convert_alpha() #Friendly laser
 laser2 = pygame.image.load("RedLaser.png").convert_alpha() #Enemy Laser
 
 
-ast=pygame.image.load("newast.png").convert_alpha()
-ast1=pygame.image.load("newast1.png").convert_alpha()
-ast2=pygame.image.load("newast2.png").convert_alpha()
-ast3=pygame.image.load("newast3.png").convert_alpha()
+ast1=pygame.image.load("newast.png").convert_alpha()
+ast2=pygame.image.load("newast1.png").convert_alpha()
+ast3=pygame.image.load("newast2.png").convert_alpha()
+ast4=pygame.image.load("newast3.png").convert_alpha()
 
 #Update and refresh the display to end this frame
 pygame.display.flip() #<-- refresh the display
@@ -86,16 +86,14 @@ bodycount = 0
 respawn = "no"
 elaserx = []
 elasery = []
+elstatus = []
 listreset = "no"
-##column1x = []
-##column1y = []
-##column2x = []
-##column2y = []
-##column3x = []
-##column3y = []
-##column4x = []
-##column4y = []
-##column5y = []
+asthp1 = 12
+asthp2 = 12
+asthp3 = 12
+asthp4 = 12
+shootmax = 998
+
 
 #Create the lists with the coordinates and stuff
 for each in range(times):
@@ -154,7 +152,44 @@ try:
 
         screen.blit(background, (-1, -1))
         screen.blit(spaceship1, (x, y))
-        screen.blit(ast, (20, 350))
+
+        #Blit the asteroids
+        if asthp1 >= 10:
+            screen.blit(ast1, (20, 330))
+        elif asthp1 >=7 and asthp1 <= 9:
+            screen.blit(ast2, (20, 330))
+        elif asthp1 >= 4 and asthp1 <= 6:
+            screen.blit(ast3, (20, 330))
+        elif asthp1 >= 1 and asthp1 <= 3:
+            screen.blit(ast2, (20, 330))
+
+        if asthp2 >= 10:
+            screen.blit(ast1, (198, 330))
+        elif asthp2 >=7 and asthp1 <= 9:
+            screen.blit(ast2, (198, 330))
+        elif asthp2 >= 4 and asthp1 <= 6:
+            screen.blit(ast3, (198, 330))
+        elif asthp2 >= 1 and asthp1 <= 3:
+            screen.blit(ast2, (198, 330))
+
+        if asthp3 >= 10:
+            screen.blit(ast1, (374, 330))
+        elif asthp3 >=7 and asthp1 <= 9:
+            screen.blit(ast2, (374, 330))
+        elif asthp3 >= 4 and asthp1 <= 6:
+            screen.blit(ast3, (374, 330))
+        elif asthp3 >= 1 and asthp1 <= 3:
+            screen.blit(ast2, (374, 330))
+
+        if asthp4 >= 10:
+            screen.blit(ast1, (536, 330))
+        elif asthp4 >=7 and asthp1 <= 9:
+            screen.blit(ast2, (536, 330))
+        elif asthp4 >= 4 and asthp1 <= 6:
+            screen.blit(ast3, (536, 330))
+        elif asthp4 >= 1 and asthp1 <= 3:
+            screen.blit(ast2, (536, 330))
+
         
         if count >= countmax:
             count = 0
@@ -185,23 +220,19 @@ try:
             for i in front:
                 efront[i] = "yes"
 
-
         #Actually shooting the laser                
         for i in range(len(estatus)):
             if estatus[i] == "alive" and efront[i] == "yes":
-                firechance = random.randint(1, 500)
-                if firechance == 50:
-                    #print(len(ex))
-                    elaserx.append(ex[i]+16)
-                    elasery.append(ey[i]+5)
+                firechance = random.randint(1, 1000)
+                if firechance >= shootmax:
+                    elaserx.append(ex[i]+11)
+                    elasery.append(ey[i]+7)
+                    elstatus.append("active")
                 
         for i in range(len(elaserx)):
-            screen.blit(laser2, (elaserx[i], elasery[i]))
+            if elstatus[i] == "active":
+                screen.blit(laser2, (elaserx[i], elasery[i]))
             elasery[i] += 2
-
- 
-    
-
         
        #Spawning the UFO for bonus points
         ufospawn = random.randint(1, 100)
@@ -239,8 +270,6 @@ try:
         for i in range(20):
             if estatus[i] == "alive":
                 screen.blit(enemy1, (ex[i], ey[i]))
-                if efront[i] == "yes":
-                    pygame.draw.rect(screen, THECOLORS['blue'], (ex[i], ey[i], 50, 50)) 
         for i in range(20, 40):
             if estatus[i] == "alive":
                 screen.blit(enemy2, (ex[i], ey[i]))
@@ -248,7 +277,7 @@ try:
             if estatus[i] == "alive":
                 screen.blit(enemy3, (ex[i], ey[i]))
 
-        #Check if a laser hits an enemy
+        #Check if friendly laser hits an enemy
         for i in range(len(ex)):
             bodycount = 0
             for j in range(len(laserx)):
@@ -264,6 +293,10 @@ try:
                         score += 20
                     elif etype[i] == 3:
                         score += 40
+
+        #Check if enemy laser hits anything
+        for i in range(len(elaserx)):
+            i
                         
         bodycount = 0
         for i in estatus:
@@ -273,6 +306,7 @@ try:
         #reset variables after a level
         if bodycount >= 50:
             level += 1
+            shootmax -= 2
             ex = []
             ey = []
             estatus = []
@@ -323,6 +357,12 @@ try:
                 del lasery[-1]
                 del laserx[-1]
                 del lstatus[-1]
+
+        if len(elasery) > 0:
+            if elasery[-1] > 500:
+                del elasery[-1]
+                del elaserx[-1]
+                del elstatus[-1]
 
         #move the ship
         if direction==1 and x > 0:
