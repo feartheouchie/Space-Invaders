@@ -39,6 +39,14 @@ ufo = pygame.image.load("UFO.png").convert_alpha()
 laser1 = pygame.image.load("GreenLaser.png").convert_alpha() #Friendly laser
 laser2 = pygame.image.load("RedLaser.png").convert_alpha() #Enemy Laser
 
+#buttons
+resume1=pygame.image.load("resume1.png").convert_alpha()
+menu1=pygame.image.load("menu1.png").convert_alpha()
+quit1=pygame.image.load("quit1.png").convert_alpha()
+
+resume2=pygame.image.load("resume2.png").convert_alpha()
+menu2=pygame.image.load("menu2.png").convert_alpha()
+quit2=pygame.image.load("quit2.png").convert_alpha()
 
 lasersfx = pygame.mixer.Sound('laser.wav')
 bkg = pygame.mixer.Sound('shootingstars.wav')
@@ -137,11 +145,12 @@ keepGoing = True 	    #<-- a 'flag' variable for the game loop condition
 
 bkg.play()
 
+unpausetext = font.render(("Press U to Unpause"), True, (255, 255, 255))
 
 try:
     while keepGoing:
-
-
+    
+        
             
         clock.tick(60) #<-- Set a constant frame rate, argument is frames per second
         if not pause:
@@ -391,6 +400,13 @@ try:
                         if ev.key == K_RIGHT:
                             direction = 4
         else:
+            r=screen.blit(resume1, (200, 200))
+            m=screen.blit(menu1, (200, 250))
+            q=screen.blit(quit1, (200, 300))
+            
+            screen.blit(unpausetext, (200, 400))
+            
+            
             for ev in pygame.event.get():
                 if ev.type == pygame.KEYDOWN: 
                     if ev.key == K_u:
