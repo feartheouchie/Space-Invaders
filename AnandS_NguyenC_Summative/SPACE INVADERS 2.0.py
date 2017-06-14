@@ -401,8 +401,6 @@ try:
                     ufox = -51
                     ufoy = 10
 
-
-
                 #A E S T H E T I C
                 if respawn == "yes":
                     time.sleep(0.5)
