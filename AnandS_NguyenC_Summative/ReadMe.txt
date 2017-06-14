@@ -1,0 +1,1 @@
+Open the file: "Space Invaders 2.0.py" to start the game

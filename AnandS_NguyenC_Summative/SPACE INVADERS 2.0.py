@@ -111,92 +111,6 @@ btnInstruct2=pygame.image.load("instru\instrubutt2.png").convert_alpha()
 btnExit2=pygame.image.load("exit\exit2.png").convert_alpha()
 btnBack2=pygame.image.load("back\\back2.png").convert_alpha()
 
-#game variables
-##x = 0
-##y = 420
-##direction=4
-##esizex = 28
-##esizey = 23
-##lsizex = 7
-##lsizey = 16
-##score = 0
-##laserx = []
-##lasery = []
-##lstatus = []
-##exbase = 10
-##estatus=[]
-##efront = []
-##row=5
-##column=10
-##ex=[]
-##ey=[]
-##etype = []
-##times=5
-##edirect = "right"
-##count = 0
-##countmax = 50
-##down = "no"
-##prevdir = "right"
-##lcount = 30
-##ufox = -51
-##ufoy = 10
-##ufostatus = "despawned"
-##level = 1
-##bodycount = 0
-##respawn = "no"
-##elaserx = []
-##elasery = []
-##elstatus = []
-##listreset = "no"
-##asthp1 = 12
-##asthp2 = 12
-##asthp3 = 12
-##asthp4 = 12
-##shootmax = 998
-##lives = 3
-##pause = False
-##gameover = False
-##varreset = "no"
-##
-###Create the lists with the coordinates and stuff
-##for each in range(times):
-##    a=0
-##    for each in range(column):
-##        exx=exbase+a
-##        ex.append(exx)
-##        a+=56
-##
-##for e in range(column):
-##    row1=250
-##    ey.append(row1)
-##for e in range(column):
-##    row2=200
-##    ey.append(row2)
-##for e in range(column):
-##    row3=150
-##    ey.append(row3)
-##for e in range(column):
-##    row4=100
-##    ey.append(row4)
-##for e in range(column):
-##    row5=50
-##    ey.append(row5)
-##
-##for e in ex:
-##    estatus.append('alive')
-##
-##for e in range(20):
-##    etype.append(1)
-##for e in range(20):
-##    etype.append(2)
-##for e in range(10):
-##    etype.append(3)
-##
-##for e in range(10):
-##    efront.append("yes")
-##for e in range(40):
-##    efront.append("no")
-
 
 #variables
 state="menu"
@@ -348,7 +262,7 @@ try:
                 asthp2 = 12
                 asthp3 = 12
                 asthp4 = 12
-                shootmax = 998
+                shootmax = 999
                 lives = 3
                 pause = False
                 gameover = False
@@ -491,7 +405,7 @@ try:
                     ufostatus = "spawned"
                 if ufostatus == "spawned":
                     screen.blit(ufo, (ufox, ufoy))
-                    ufox += 1
+                    ufox += 2
                 if ufox > 650:
                     ufostatus = "despawned"
                     ufox = -51
@@ -728,7 +642,7 @@ try:
 
                 #Game over conditions
                 for i in ey:
-                    if i >= 310:
+                    if i >= 325:
                         gameover = True
                 if lives <= 0:
                     gameover = True
