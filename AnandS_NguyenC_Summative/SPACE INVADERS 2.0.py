@@ -78,7 +78,7 @@ credittext2 = fontObj.render(('Software Engineer'), True, (255,255,255))
 credittext11 = fontObj.render(('Candace Nguyen'), True, (255,255,255))
 credittext22 = fontObj.render(('Shashank Anand'), True, (255,255,255))
 musictext = fontObj.render(('Music'), True, (255,255,255))
-musictextt = fontObj.render(('Space Song'), True, (255,255,255))
+musictextt = fontObj.render(('Heart of Eternity - Revolt Production'), True, (255,255,255))
 
 enemies=fontObj2.render(('Enemies'), True, (255,255,255))
 ufotext=fontObj2.render(('UFO'), True, (255,255,255))
@@ -399,6 +399,8 @@ try:
                 unpausetext = fontObj.render(("Press U to Unpause"), True, (255, 255, 255))
                 quittext = fontObj.render(("Press Q to Quit"), True, (255, 255, 255))
                 menutext = fontObj.render(("Press M to return to the Menu"), True, (255, 255, 255))
+                finalscore = fontObj2.render("Your final score was: " + str(score), True, (255, 255, 255))
+                                              
                 screen.blit(gamebackground, (-1, -1))
                 screen.blit(spaceship1, (x, y))
 
@@ -484,7 +486,7 @@ try:
                     elasery[i] += 2
                 
                #Spawning the UFO for bonus points
-                ufospawn = random.randint(1, 100)
+                ufospawn = random.randint(1, 500)
                 if ufospawn == 77 and ufostatus == "despawned":
                     ufostatus = "spawned"
                 if ufostatus == "spawned":
@@ -566,10 +568,10 @@ try:
 
                 #Check if friendly laser hits the UFO
                 for i in range(len(lstatus)):
-                    if laserx[i] + 3.5 >= ufox and laserx[i] + 3.5 <= ufox + 50 and lasery[i] <= ufoy + 19 and lasery[i] - 21 >= ufoy and lstatus[i] == "active" and ufostatus == "spawned":
+                    if laserx[i] + 3.5 >= ufox and laserx[i] + 3.5 <= ufox + 50 and lasery[i] <= ufoy + 19 and lasery[i] + 21 >= ufoy and lstatus[i] == "active" and ufostatus == "spawned":
                         lstatus[i] = "inactive"
                         ufostatus = "despawned"
-                        score += random.choice(50, 100, 150)
+                        score += random.choice([50, 100, 150])
                         ufox = -51
                         ufoy = 10
 
@@ -736,7 +738,8 @@ try:
                 if gameover == True:
                     pygame.draw.rect(screen, THECOLORS["black"], (-1, -1, 700, 700))
                     screen.blit(gameovertext, (170, 200))
-                    screen.blit(how2pause, (80, 400))
+                    screen.blit(how2pause, (80, 380))
+                    screen.blit(finalscore, (80, 420)) 
 
 
                     
