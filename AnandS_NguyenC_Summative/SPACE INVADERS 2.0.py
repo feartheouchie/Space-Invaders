@@ -641,8 +641,8 @@ try:
                 screen.blit(livestext, (300, 450))
 
                 #Game over conditions
-                for i in ey:
-                    if i >= 325:
+                for i in range(len(ey)):
+                    if estatus[i] != "dead" and ey[i] >= 325:
                         gameover = True
                 if lives <= 0:
                     gameover = True
